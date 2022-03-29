@@ -72,7 +72,7 @@
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtTime" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtTime" autocomplete="off" CssClass="form-control"  ReadOnly="true" runat="server" Width="200px" ></asp:TextBox>
                        
                     </div>
                   

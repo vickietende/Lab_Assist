@@ -50,24 +50,42 @@
           <li><a class="nav-link scrollto active" href="Home.aspx">Home</a></li>
         <%--  <li><a class="nav-link scrollto" href="#about">System Administration</a></li>--%>
          <%-- <li><a class="nav-link scrollto" href="#services">Services</a></li>--%>
-          <li><a class="nav-link   scrollto" href="#portfolio">Test Results</a></li>
+           <li class="dropdown"><a href="#"><span>Test Results</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+                <li class="dropdown"><a href="HIV.aspx"><span>Serology</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="HIV.aspx">HIV Rapid + ELISA</a></li>
+                  <li><a href="VL.aspx">HIV Viral Load</a></li>
+                  <li><a href="HCV.aspx">Hepatitis C Virus Antibody</a></li>
+                  <li><a href="HAV.aspx">Hepatitis A Virus Antibody</a></li>
+                  <li><a href="HSV.aspx">Herpes Simplex Virus I & II</a></li>
+                  <li><a href="Rub.aspx">Rubella IgM & IgG</a></li>
+                  <li><a href="Torch.aspx">Torch Screen</a></li>
+                  <li><a href="s-Crag.aspx">Cryptococcal Antigen</a></li>
+                  <li><a href="Hpylori.aspx">Helicobacter Pylori</a></li>
+                  <li><a href="Widal.aspx">WIDAL-Typhoid Fever</a></li>
+                  <li><a href="Rf.aspx">Rheumatoid factor</a></li>
+                </ul>
+              </li>
+                   <li class="dropdown"><a href="FBC.aspx"><span>Haematology</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="FBC.aspx">Full Blood Count</a></li>
+                  <li><a href="CD4.aspx">CD4 Count</a></li>
+                  <li><a href="ABORH.aspx">Blood group + Rhesus</a></li>
+                  <li><a href="MPS.aspx">Malaria Parasite ICT + Slide</a></li>
+                  <li><a href="DDimer">D-Dimer</a></li>
+                </ul>
+              </li>
+              
+             
+            </ul>
+          </li>
          <%-- <li><a class="nav-link scrollto" href="#team">Team</a></li>--%>
-          <li class="dropdown"><a href="#"><span>System Administration</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a href="ProductMgt.aspx"><span>System Administration</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Add Users/Roles</a></li>
                 <li><a href="ProductMgt.aspx">Product Management</a></li>
-            <%--  <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>--%>
+         
             </ul>
           </li>
         <%--  <li><a class="nav-link scrollto" href="#contact">Contact</a></li>--%>
