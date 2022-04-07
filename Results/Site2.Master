@@ -1,4 +1,8 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Lab_Assist.Site1" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site2.master.cs" Inherits="Lab_Assist.Results.Site2" %>
+<%@ Register
+    Assembly="AjaxControlToolkit"
+    Namespace="AjaxControlToolkit"
+    TagPrefix="ajax"%>
 
 <!DOCTYPE html>
 
@@ -10,28 +14,28 @@
 
   
   <!-- Favicons -->
-  <link href="assets/img/logo1.png" rel="icon">
-  <link href="assets/img/logo1.png" rel="apple-touch-icon">
+  <link href="~/assets/img/logo1.png" rel="icon">
+  <link href="~/assets/img/logo1.png" rel="apple-touch-icon">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!--  CSS Files -->
  
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="assets/vendor/aos/aos.css"  rel="stylesheet">
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+  <link href="~/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/assets/vendor/aos/aos.css"  rel="stylesheet">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     
    
 
   
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="~/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!--  Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="~/assets/css/style.css" rel="stylesheet">
     <asp:ContentPlaceHolder ID="head" runat="server">
       </asp:ContentPlaceHolder>
         <link rel="shortcut icon" href="~/assets/img/logo1.png" />
@@ -105,7 +109,7 @@
       <h1 class="logo me-auto" ><a href="Home.aspx" style="color:midnightblue;">GENOMIX MEDICAL CENTRE LAB-LMS</a></h1>
 
      
-       <a runat="server" href="Home.aspx" class="logo me-auto"><img runat="server" src="~/assets/img/logo1.png" alt="" class="img-fluid" style="width:150px;height:250px;"></a>
+       <a runat="server" href="~/Home.aspx" class="logo me-auto"><img runat="server" src="~/assets/img/logo1.png" alt="" class="img-fluid" style="width:150px;height:250px;"></a>
         
      <asp:Menu ID="Menu1"  runat="server" Orientation="Horizontal" DataSourceID="XmlDataSource2"
     OnMenuItemDataBound="Menu1_MenuItemDataBound">
@@ -129,6 +133,9 @@
 </asp:Menu> 
     <span> <asp:Label ID="lblUserName" runat="server" Text="Hello User" Font-Italic="true" Font-Bold="true" ForeColor="BlueViolet" ></asp:Label></span>  
   
+
+
+        
     </div>
   </header><!-- End Header -->
       
@@ -136,7 +143,9 @@
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
-     
+       
+   
+  
      <!-- ======= Footer ======= -->
   <footer id="footer">
 
@@ -154,23 +163,23 @@
   </footer><!-- End Footer -->
              </form>
       <div id="preloader"></div>
-<%--  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>--%>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!--  JS Files -->
-  <script src="assets/vendor/aos/aos.js"></script>
-       <script src="Scripts/bootstrap.min.js"></script>
-    <script src="Scripts/jquery-2.0.0.min.js"></script>
+  <script src="/assets/vendor/aos/aos.js"></script>
+       <script src="/Scripts/bootstrap.min.js"></script>
+    <script src="/Scripts/jquery-2.0.0.min.js"></script>
 
    
 
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/assets/vendor/waypoints/noframework.waypoints.js"></script>
  
 
   <!--  Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="/assets/js/main.js"></script>
  
 </body>
 </html>

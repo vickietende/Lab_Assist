@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Lab_Assist
+namespace Lab_Assist.Results
 {
-    public partial class Site1 : System.Web.UI.MasterPage
+    public partial class Site2 : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -15,7 +15,7 @@ namespace Lab_Assist
             {
                 if (Session["UserId"] == null)
                 {
-                    Response.Redirect("Login.aspx", true);
+                    Response.Redirect("~/Login.aspx", true);
                 }
                 else
                 {
@@ -24,8 +24,8 @@ namespace Lab_Assist
                     string userid = Session["UserId"].ToString();
                     string BranchName = Session["BranchName"].ToString();
                     string BranchCode = Session["BranchCode"].ToString();
-                    lblUserName.Text =Session["Username"].ToString();
-                   
+                    lblUserName.Text = Session["Username"].ToString();
+
                 }
 
             }

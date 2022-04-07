@@ -160,7 +160,7 @@ namespace Lab_Assist
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
               
             }

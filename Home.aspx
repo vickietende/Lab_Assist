@@ -32,13 +32,24 @@
       <div  class="nav nav-tabs alert-success">
        <h4>Home</h4>
           </div>
-           <div class="container">
+         <div class="container">
                 <div class="row mt-5">
                     <div  class="col-md-6">
-                        <asp:TextBox   ID="txtSearchCustomer" autocomplete="off"   runat="server" Width="600px" ></asp:TextBox>
+                    <asp:RadioButtonList ID="rdblClientType" RepeatDirection="Horizontal" runat="server">
+                        <asp:ListItem Value="Online">Online</asp:ListItem>
+                        <asp:ListItem Value="New">New</asp:ListItem>
+                    </asp:RadioButtonList>
                         </div>
-                     <div  class="col-md-2">
-                       <asp:Button  CssClass="btn btn-primary btn-sm" ID="btnSearchCustomer" runat="server"  Text="🔍" UseSubmitBehavior="false" Onclick="btnSearchCustomer_Click" />
+                    </div>
+             </div>
+           <div class="container">
+                <div class="row mt-1">
+                    <div  class="col-md-6">
+                        <asp:TextBox   ID="txtSearchCustomer" autocomplete="off"   runat="server" Width="550px" ></asp:TextBox>
+                   
+                        </div>
+                    <div  class="col-md-6">
+                      <asp:Button  CssClass="btn btn-primary btn-sm" ID="btnSearchCustomer" runat="server"  Text="🔍" UseSubmitBehavior="false" Onclick="btnSearchCustomer_Click" />
                         </div>
                     </div>
              </div>
@@ -72,7 +83,7 @@
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtTime" autocomplete="off" CssClass="form-control"  ReadOnly="true" runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtTime" autocomplete="off" CssClass="form-control"   runat="server" Width="200px" ></asp:TextBox>
                        
                     </div>
                   
@@ -93,7 +104,7 @@
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtemail" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtemail" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" TextMode="Email"></asp:TextBox>
                        
                     </div>
                      <div class="col-md-1">
@@ -174,25 +185,80 @@
              </div>
                   </div>
                 </div>
-            <div class="container">
+           <%-- <div class="container">
               <div class="row  mt-1">
                  
                      <div class="col-md-10">
-                  <asp:CheckBoxList ID="chkServices" RepeatColumns="3" RepeatDirection="Vertical" runat="server"  CellPadding="5">
+                  <asp:CheckBoxList ID="chkServices" RepeatColumns="3" Visible="false" RepeatDirection="Vertical" runat="server"  CellPadding="5">
 
                     </asp:CheckBoxList>
              </div>
                   </div>
-                </div>
+                </div>--%>
           <div class="container">
               <div class="row  mt-1">
               <div class="col-md-1">
-                <label for="other">Other(please specify)</label>
+                  <asp:Label ID="lblOther" runat="server" Visible="false" Text="Other"></asp:Label>
                   </div>
          <div class="col-md-3">
-                  <asp:TextBox ID="txtOther" class="form-control" Width="600px" runat="server" Placeholder="Specify Service required" TextMode="MultiLine"></asp:TextBox>
+                  <asp:TextBox ID="txtOther" class="form-control" Width="600px" runat="server" Visible="false"  TextMode="MultiLine"></asp:TextBox>
                   
               </div>
+                  </div>
+              </div>
+              <div class="container">
+          <div class="row  mt-5">
+          <div  class="nav nav-tabs alert-success">
+                <h4>Services</h4>
+          </div>
+            </div>
+              </div>
+          <div class="container">
+                <div class="row mt-1">
+                     <div  class="col-md-1">
+                         <asp:Label ID="Label15" runat="server" Text="Category"></asp:Label>
+                        </div>
+                    <div  class="col-md-3">
+                    <asp:DropDownList ID="ddl_Category" runat="server" CssClass="form-control" AutoPostBack="true" style="width:200px;" OnSelectedIndexChanged="ddl_Category_SelectedIndexChanged"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-1">
+                       <asp:Label ID="Label13" runat="server" Text="Service" CssClass="control-label" ></asp:Label> 
+                        
+                    </div>
+                    <div class="col-md-3">
+                 <asp:DropDownList ID="ddl_Products" CssClass="form-control" data-toggle="dropdown" AutoPostBack="true" runat="server" OnSelectedIndexChanged="ddl_Products_SelectedIndexChanged" Width="200px">
+                       
+                     </asp:DropDownList>
+                       
+                    </div>
+                        <div  class="col-md-1">
+                         <asp:Label ID="Label16" runat="server" Text="Specimen Type"></asp:Label>
+                        </div>
+                    <div  class="col-md-3">
+                    <asp:DropDownList ID="ddl_SpecimenTypes" CssClass="form-control" runat="server" style="width:200px;"></asp:DropDownList>
+                        </div>
+                  
+                   
+                    </div>
+             </div>
+            <div class="container">
+              <div class="row  mt-1">
+                    <div class="col-md-1">
+                       <asp:Label ID="Label12" runat="server" Text="Test Code" CssClass="control-label" ></asp:Label> 
+                        
+                    </div>
+                    <div class="col-md-3">
+                <asp:TextBox   ID="txtTestCode" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                       
+                    </div>
+           
+                  </div>
+         </div>
+             <div class="container">
+              <div class="row mt-1">
+                    <div class="col-md-12 center-block" >
+                    <asp:ListBox ID="lstTests" runat="server" AutoPostBack="True" Visible="false" CssClass="col-md-12 center-block" OnSelectedIndexChanged="lstTests_SelectedIndexChanged" ></asp:ListBox>
+                </div>
                   </div>
               </div>
          <hr/>
@@ -200,7 +266,7 @@
               <div class="row  mt-1">
                  
                      <div  style="padding-left:450px;">
-                <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Save" Onclick="btnSave_Click"/>
+                <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Send Test" Onclick="btnSave_Click"/>
              </div>
                
                   </div>
@@ -211,13 +277,13 @@
                  
                      <div class="col-md-10">
                      <asp:LinkButton ID="lnkRefresh" ForeColor="Blue" runat="server" OnClick="lnkRefresh_Click">Refresh Page</asp:LinkButton>
-                         
+                        <asp:Label ID="lblError" runat="server" Text="" CssClass="control-label" ></asp:Label>     
              </div>
                
                   </div>
                 </div>
              
-             
+           
              
              
          </asp:Panel>

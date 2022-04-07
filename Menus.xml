@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Menus>
+  <Menu Url="~/Home.aspx" Text="Home" Value="Home Page">
+    <SubMenu Url="~/Login.aspx" Text="LogOut" Value="Login Page"/>
+    </Menu>
+  <Menu Url="javascript:;" Text="Results" Value="Results Page">
+      <SubMenu Url ="#" Text="Serology" Value="Serology">
+            <InnerMenu Url="~/Results/HIV.aspx" Text="HIV Rapid + ELISA" ></InnerMenu>
+            <InnerMenu Url="~/VL.aspx" Text="HIV Viral Load"></InnerMenu>
+            <InnerMenu Url="~/HCV.aspx" Text="Hepatitis C Virus Antibody"></InnerMenu>
+        <InnerMenu Url="~/HCV.aspx" Text="Hepatitis C Virus Antibody"></InnerMenu>
+        <InnerMenu Url="~/HAV.aspx" Text="Hepatitis A Virus Antibody"></InnerMenu>
+        <InnerMenu Url="~/HSV.aspx" Text="Herpes Simplex Virus I and II"></InnerMenu>
+        <InnerMenu Url="~/Rub.aspx" Text="Rubella IgM and IgG"></InnerMenu>
+        <InnerMenu Url="~/Torch.aspx" Text="Torch Screen"></InnerMenu>
+        <InnerMenu Url="~/s-Crag.aspx" Text="Cryptococcal Antigen"></InnerMenu>
+        <InnerMenu Url="~/Widal.aspx" Text="WIDAL-Typhoid Fever"></InnerMenu>
+        <InnerMenu Url="~/Rf.aspx" Text="Rheumatoid factor"></InnerMenu>
+      </SubMenu>
+    <SubMenu Url ="#" Text="Haematology" Value="Haematology">
+      <InnerMenu Url="~/FBC.aspx" Text="Full Blood Count" ></InnerMenu>
+      <InnerMenu Url="~/CD4.aspx" Text="CD4 Count"></InnerMenu>
+      <InnerMenu Url="~/ABORH.aspx" Text="Blood group + Rhesus"></InnerMenu>
+      <InnerMenu Url="~/MPS.aspx" Text="Malaria Parasite ICT + Slide"></InnerMenu>
+      <InnerMenu Url="~/DDimer.aspx" Text="D-Dimer"></InnerMenu>
+      
+    </SubMenu>
+    <SubMenu Url ="#" Text="COVID-19" Value="COVID">
+      <InnerMenu Url="~/Results/COVIDPCR.aspx" Text="COVID-19 PCR" ></InnerMenu>
+     
+      
+    </SubMenu>
+  </Menu>
+  <Menu Url ="#" Text="System Admin" Value="Administration Page">
+      <SubMenu Url="~/ProductMgt.aspx" Text="Products Mgt" Value="Products page"></SubMenu>
+      <SubMenu Url="#" Text="Users/Roles" Value="Users Page"></SubMenu>
+  </Menu>
+  
+ 
+ 
+ 
+ 
+</Menus>

@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lab_Assist
+namespace Lab_Assist.Results
 {
 
 
-    public partial class Site1
+    public partial class Site2
     {
 
         /// <summary>
