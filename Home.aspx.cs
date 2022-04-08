@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Web.Services;
 
 namespace Lab_Assist
 {
@@ -22,11 +23,14 @@ namespace Lab_Assist
                 //loadServices();
                 loadLocations();
                 loadTestCategories();
+                loadProducts();
                 loadSpecimenTypes();
 
             }
 
         }
+       
+     
         private void loadTestCategories()
         {
             try
@@ -111,7 +115,7 @@ namespace Lab_Assist
             {
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
-                    using (var cmd = new SqlCommand("select LabNumber, isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') as display from [dbo].[tbl_Appointments] where isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') like '%" + txtSearchCustomer.Text + "%'", con))
+                    using (var cmd = new SqlCommand("select LabNumber, isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') as display from [dbo].[tbl_Appointments] where isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') like '%" + txtSearchCustomer.Text + "%' and CustomerType not in ('New')", con))
                     {
                         DataSet ds = new DataSet();
                         var adp = new SqlDataAdapter(cmd);
@@ -153,7 +157,7 @@ namespace Lab_Assist
             {
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
-                    using (var cmd = new SqlCommand("Select ID,LabNumber,Full_Name,Email,Phone_Number,convert(varchar,Appointment_Date,103)AppointmentDate,IDNO,Gender,convert(varchar,DOB,103)DOB,Address,Location,isnull((Select Other  from tbl_SelectedServices where  Other != '' and Other is not null and LabNumber='" + labno + "'),'N/A')Other from tbl_Appointments where LabNumber='" + labno +"'", con))
+                    using (var cmd = new SqlCommand("Select ID,CustomerType,LabNumber,Full_Name,Email,Phone_Number,convert(varchar,Appointment_Date,103)AppointmentDate,IDNO,Gender,convert(varchar,DOB,103)DOB,Address,Location,isnull((Select Other  from tbl_SelectedServices where  Other != '' and Other is not null and LabNumber='" + labno + "'),'N/A')Other from tbl_Appointments where LabNumber='" + labno +"'", con))
                     {
                         DataTable dt = new DataTable();
                         var adp = new SqlDataAdapter(cmd);
@@ -170,6 +174,7 @@ namespace Lab_Assist
                             txtDOB.Text= dt.Rows[0]["DOB"].ToString();
                             txtaddress.Text = dt.Rows[0]["Address"].ToString();
                             ddl_Cities.SelectedValue= dt.Rows[0]["Location"].ToString();
+                            rdblClientType.SelectedValue= dt.Rows[0]["CustomerType"].ToString();
                             txtOther.Visible = true;
                             txtOther.Text = dt.Rows[0]["Other"].ToString();
                   
@@ -236,13 +241,10 @@ namespace Lab_Assist
             }
        
         }
-        private void getOtherServices()
-        {
-
-        }
+      
         private void ClearAll()
         {
-            txtDateCreated.Text = "";
+            txtDateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
             txtOther.Text = "";
             txtlabNo.Text = "";
             txtFullName.Text = "";
@@ -256,6 +258,7 @@ namespace Lab_Assist
             ddl_Category.SelectedIndex = 0;
             ddl_SpecimenTypes.SelectedIndex = 0;
             ddl_Products.SelectedIndex = 0;
+           
             txtTestCode.Text = "";
             lstTests.Items.Clear();
             lstCustomers.DataSource = null;
@@ -289,6 +292,292 @@ namespace Lab_Assist
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
+        {
+            if (rdblClientType.SelectedValue == "")
+            {
+                string script = "alert(\"Patient Type is required\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+            }
+          
+            try
+            {
+                if (rdblClientType.SelectedValue == "Online")
+                {
+                    if (txtFullName.Text == "")
+                    {
+                        string script = "alert(\"Full name is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtphone.Text == "")
+                    {
+                        string script = "alert(\"Your Phone number  is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+
+                    if (txtDateCreated.Text == "")
+                    {
+                        string script = "alert(\"Testing Date is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtaddress.Text == "")
+                    {
+                        string script = "alert(\"Physical Address is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtTime.Text == "")
+                    {
+                        string script = "alert(\"Provide Preferred Time for Testing\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (ddl_Cities.SelectedIndex == 0)
+                    {
+                        string script = "alert(\"Location is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (ddl_Category.SelectedIndex == 0)
+                    {
+                        string script = "alert(\"Test Category is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+
+                    }
+                    if (ddl_Products.SelectedIndex == 0)
+                    {
+                        string script = "alert(\"Test is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+
+                    }
+                    List<string> serviceslist = new List<string>();
+                    foreach (ListItem li in lstTests.Items)
+                    {
+                        serviceslist.Add(li.Value.ToString());
+
+                    }
+                    try
+                    {
+                        foreach (string service in serviceslist)
+                    {
+
+                       
+                            DateTime TestDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
+                            TestDate = Convert.ToDateTime(TestDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+                            DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
+                            DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+
+                            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand("[dbo].[SP_SavePendingResultsOnline]", con);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
+                            cmd.Parameters.AddWithValue("@Full_Name", txtFullName.Text);
+                            cmd.Parameters.AddWithValue("@IDNO", txtIDNO.Text);
+                            cmd.Parameters.AddWithValue("@Gender", ddl_Gender.SelectedValue);
+                            cmd.Parameters.AddWithValue("@DOB", DOBDate);
+                            cmd.Parameters.AddWithValue("@Email", txtemail.Text);
+                            cmd.Parameters.AddWithValue("@Phone_Number", txtphone.Text);
+                            cmd.Parameters.AddWithValue("@Address", txtaddress.Text);
+                            cmd.Parameters.AddWithValue("@LocationID", ddl_Cities.SelectedValue);
+                            cmd.Parameters.AddWithValue("@Test_Date", TestDate);
+                            cmd.Parameters.AddWithValue("@Test_Time", txtTime.Text);
+                            cmd.Parameters.AddWithValue("@ProductID", service);
+
+
+
+                            if (con.State != ConnectionState.Open)
+                            {
+                                con.Open();
+
+                            }
+                            SqlParameter IdParam = new SqlParameter("@TestID", SqlDbType.BigInt);
+                            IdParam.Direction = ParameterDirection.Output;
+                            cmd.Parameters.Add(IdParam);
+
+                            cmd.ExecuteNonQuery();
+                            string ID = IdParam.Value.ToString();
+                            txtlabNo.Text = getLabNumber(ID.ToString());
+                            ViewState["labno"] = getLabNumber(ID.ToString());
+                            //insertservices(getLabNumber(ID.ToString()));
+                            //SendEmail();
+                         
+
+                            con.Close();
+                          
+                            //loadCustomerDetails(getLabNumber(ID.ToString()));
+                            //getSelectedServices(getLabNumber(ID.ToString()));
+                        }
+                        string script = "alert(\"Submitted Successfully\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        ClearAll();
+                    }
+                        catch (Exception ex)
+                        {
+                        lblError.Text = ex.Message;                        
+
+                        }
+
+                    }
+
+              
+                else if (rdblClientType.SelectedValue == "New")
+                {
+
+                    if (txtFullName.Text == "")
+                    {
+                        string script = "alert(\"Full name is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtphone.Text == "")
+                    {
+                        string script = "alert(\"Your Phone number  is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+
+                    if (txtDateCreated.Text == "")
+                    {
+                        string script = "alert(\"Testing Date is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtaddress.Text == "")
+                    {
+                        string script = "alert(\"Physical Address is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (txtTime.Text == "")
+                    {
+                        string script = "alert(\"Provide Preferred Time for Testing\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+                    }
+                    if (ddl_Category.SelectedIndex == 0)
+                    {
+                        string script = "alert(\"Test Category is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+
+                    }
+                    if (ddl_Products.SelectedIndex == 0)
+                    {
+                        string script = "alert(\"Test is required\");";
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        return;
+
+                    }
+
+                    List<string> serviceslist = new List<string>();
+                    foreach (ListItem li in lstTests.Items)
+                    {
+                        serviceslist.Add(li.Value.ToString());
+
+                    }
+                    try
+                    {
+
+                        foreach (string service in serviceslist)
+                        {
+                       
+                            DateTime TestDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
+                            TestDate = Convert.ToDateTime(TestDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+                            DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
+                            DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+
+                            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand("[dbo].[SP_SavePendingResults]", con);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
+                            cmd.Parameters.AddWithValue("@Full_Name", txtFullName.Text);
+                            cmd.Parameters.AddWithValue("@IDNO", txtIDNO.Text);
+                            cmd.Parameters.AddWithValue("@Gender", ddl_Gender.SelectedValue);
+                            cmd.Parameters.AddWithValue("@DOB", DOBDate);
+                            cmd.Parameters.AddWithValue("@Email", txtemail.Text);
+                            cmd.Parameters.AddWithValue("@Phone_Number", txtphone.Text);
+                            cmd.Parameters.AddWithValue("@Address", txtaddress.Text);
+                            cmd.Parameters.AddWithValue("@LocationID", ddl_Cities.SelectedValue);
+                            cmd.Parameters.AddWithValue("@Test_Date", TestDate);
+                            cmd.Parameters.AddWithValue("@Test_Time", txtTime.Text);
+                            cmd.Parameters.AddWithValue("@ProductID", service);
+
+
+
+                            if (con.State != ConnectionState.Open)
+                            {
+                                con.Open();
+
+                            }
+                            SqlParameter IdParam = new SqlParameter("@TestID", SqlDbType.BigInt);
+                            IdParam.Direction = ParameterDirection.Output;
+                            cmd.Parameters.Add(IdParam);
+
+                            cmd.ExecuteNonQuery();
+                            string ID = IdParam.Value.ToString();
+                            txtlabNo.Text = getLabNumber(ID.ToString());
+                            ViewState["labno"] = getLabNumber(ID.ToString());
+                            //insertservices(getLabNumber(ID.ToString()));
+                            //SendEmail();
+                           
+
+                            con.Close();
+                            
+                            //loadCustomerDetails(getLabNumber(ID.ToString()));
+                            //getSelectedServices(getLabNumber(ID.ToString()));
+                        }
+                        string script = "alert(\"Submitted successfully\");" + getLabNumber(ID.ToString());
+                        ScriptManager.RegisterStartupScript(this, GetType(),
+                                              "ServerControlScript", script, true);
+                        ClearAll();
+                    }
+                        catch (Exception ex)
+                        {
+
+                        lblError.Text = ex.Message;
+                        }
+
+                    }
+
+               
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+        protected void btnCreate_Click(object sender, EventArgs e)
         {
             if (txtFullName.Text == "")
             {
@@ -326,165 +615,66 @@ namespace Lab_Assist
                                       "ServerControlScript", script, true);
                 return;
             }
-            if (ddl_Cities.SelectedIndex == 0)
+            try
             {
-                string script = "alert(\"Location is required\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-            }
-            if (ddl_Category.SelectedIndex == 0)
-            {
-                string script = "alert(\"Test Category is required\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
+                DateTime TestDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
+                TestDate = Convert.ToDateTime(TestDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
 
-            }
-            if (ddl_Products.SelectedIndex == 0)
-            {
-                string script = "alert(\"Test is required\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
+                DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
+                DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
 
-            }
 
-          
-            if (rdblClientType.SelectedValue == "Online")
-            {
-                foreach(ListItem li in lstTests.Items)
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_SaveNewClientstoAppointments]", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Full_Name", txtFullName.Text);
+                cmd.Parameters.AddWithValue("@Email", txtemail.Text);
+                cmd.Parameters.AddWithValue("@Phone_Number", txtphone.Text);
+                cmd.Parameters.AddWithValue("@Appointment_Date", TestDate);
+                cmd.Parameters.AddWithValue("@Appointment_Time", txtTime.Text);
+                cmd.Parameters.AddWithValue("@IDNO", txtIDNO.Text);
+                cmd.Parameters.AddWithValue("@Gender", ddl_Gender.SelectedValue);
+                cmd.Parameters.AddWithValue("@DOB", DOBDate);
+                cmd.Parameters.AddWithValue("@Address", txtaddress.Text);
+                cmd.Parameters.AddWithValue("@Location", ddl_Cities.SelectedValue);
+              
+               
+                cmd.Parameters.AddWithValue("@filName", "");
+                cmd.Parameters.AddWithValue("@ContentType", "");
+                cmd.Parameters.AddWithValue("@ImgFile", "");
+
+
+                if (con.State != ConnectionState.Open)
                 {
-                    try
-                    {
-                        DateTime TestDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
-                        TestDate = Convert.ToDateTime(TestDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-
-                        DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
-                        DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-
-
-                        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
-                        con.Open();
-                        SqlCommand cmd = new SqlCommand("[dbo].[SP_SavePendingResultsOnline]", con);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
-                        cmd.Parameters.AddWithValue("@Full_Name", txtFullName.Text);
-                        cmd.Parameters.AddWithValue("@IDNO", txtIDNO.Text);
-                        cmd.Parameters.AddWithValue("@Gender", ddl_Gender.SelectedValue);
-                        cmd.Parameters.AddWithValue("@DOB", DOBDate);
-                        cmd.Parameters.AddWithValue("@Email", txtemail.Text);
-                        cmd.Parameters.AddWithValue("@Phone_Number", txtphone.Text);
-                        cmd.Parameters.AddWithValue("@Address", txtaddress.Text);
-                        cmd.Parameters.AddWithValue("@LocationID", ddl_Cities.SelectedValue);
-                        cmd.Parameters.AddWithValue("@Test_Date", TestDate);
-                        cmd.Parameters.AddWithValue("@Test_Time", txtTime.Text);
-                        cmd.Parameters.AddWithValue("@ProductID", li.Value);
-
-                 
-
-                        if (con.State != ConnectionState.Open)
-                        {
-                            con.Open();
-
-                        }
-                        SqlParameter IdParam = new SqlParameter("@TestID", SqlDbType.BigInt);
-                        IdParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(IdParam);
-
-                        cmd.ExecuteNonQuery();
-                        string ID = IdParam.Value.ToString();
-                        txtlabNo.Text=getLabNumber(ID.ToString());
-                        ViewState["labno"] = getLabNumber(ID.ToString());
-                        //insertservices(getLabNumber(ID.ToString()));
-                        //SendEmail();
-                        string script = "alert(\"Submitted successfully\");" + getLabNumber(ID.ToString());
-                        ScriptManager.RegisterStartupScript(this, GetType(),
-                                              "ServerControlScript", script, true);
-
-                        con.Close();
-                        ClearAll();
-                        //loadCustomerDetails(getLabNumber(ID.ToString()));
-                        //getSelectedServices(getLabNumber(ID.ToString()));
-
-                    }
-                    catch (Exception ex)
-                    {
-                        lblError.Text = ex.Message;
-
-                    }
+                    con.Open();
 
                 }
+                SqlParameter IdParam = new SqlParameter("@ID", SqlDbType.BigInt);
+                IdParam.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(IdParam);
 
+                cmd.ExecuteNonQuery();
+                string ID = IdParam.Value.ToString();
+                txtlabNo.Text=getLabNumber(ID.ToString());
+                
+                ViewState["labno"] = getLabNumber(ID.ToString());
+           
+                string script = "alert(\"Patient Profile created successfully!! \");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+
+                con.Close();
+                //ClearAll();
+         
             }
-            else if (rdblClientType.SelectedValue == "New")
+            catch (Exception)
             {
-                foreach (ListItem li in lstTests.Items)
-                {
-                    try
-                    {
-                        DateTime TestDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
-                        TestDate = Convert.ToDateTime(TestDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
 
-                        DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
-                        DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-
-
-                        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
-                        con.Open();
-                        SqlCommand cmd = new SqlCommand("[dbo].[SP_SavePendingResults]", con);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                       
-                        cmd.Parameters.AddWithValue("@Full_Name", txtFullName.Text);
-                        cmd.Parameters.AddWithValue("@IDNO", txtIDNO.Text);
-                        cmd.Parameters.AddWithValue("@Gender", ddl_Gender.SelectedValue);
-                        cmd.Parameters.AddWithValue("@DOB", DOBDate);
-                        cmd.Parameters.AddWithValue("@Email", txtemail.Text);
-                        cmd.Parameters.AddWithValue("@Phone_Number", txtphone.Text);
-                        cmd.Parameters.AddWithValue("@Address", txtaddress.Text);
-                        cmd.Parameters.AddWithValue("@LocationID", ddl_Cities.SelectedValue);
-                        cmd.Parameters.AddWithValue("@Test_Date", TestDate);
-                        cmd.Parameters.AddWithValue("@Test_Time", txtTime.Text);
-                        cmd.Parameters.AddWithValue("@ProductID", li.Value);
-
-
-
-                        if (con.State != ConnectionState.Open)
-                        {
-                            con.Open();
-
-                        }
-                        SqlParameter IdParam = new SqlParameter("@TestID", SqlDbType.BigInt);
-                        IdParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(IdParam);
-
-                        cmd.ExecuteNonQuery();
-                        string ID = IdParam.Value.ToString();
-                        txtlabNo.Text = getLabNumber(ID.ToString());
-                        ViewState["labno"] = getLabNumber(ID.ToString());
-                        //insertservices(getLabNumber(ID.ToString()));
-                        //SendEmail();
-                        string script = "alert(\"Submitted successfully\");" + getLabNumber(ID.ToString());
-                        ScriptManager.RegisterStartupScript(this, GetType(),
-                                              "ServerControlScript", script, true);
-
-                        con.Close();
-                        ClearAll();
-                        //loadCustomerDetails(getLabNumber(ID.ToString()));
-                        //getSelectedServices(getLabNumber(ID.ToString()));
-
-                    }
-                    catch (Exception)
-                    {
-                        
-
-                    }
-
-                }
 
             }
 
-        
         }
         private string getLabNumber(string scopeid)
         {
@@ -684,6 +874,45 @@ namespace Lab_Assist
             }
 
         }
+        private void loadProducts()
+        {
+            try
+            {
+
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
+                {
+                    using (var cmd = new SqlCommand("Select * from [dbo].[tbl_Products] ", con))
+                    {
+                        DataSet ds = new DataSet();
+                        var adp = new SqlDataAdapter(cmd);
+                        adp.Fill(ds, "cou");
+                        if (ds.Tables[0].Rows.Count > 0)
+                        {
+
+                            ddl_Products.DataSource = ds.Tables[0];
+                            ddl_Products.DataTextField = "Test";
+                            ddl_Products.DataValueField = "ProductID";
+
+
+                        }
+                        else
+                        {
+                            ddl_Products.DataSource = null;
+
+                        }
+
+                        ddl_Products.DataBind();
+                        ddl_Products.Items.Insert(0, "-- Select Test --");
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
         private void loadSpecimenTypes()
         {
             try
@@ -766,5 +995,6 @@ namespace Lab_Assist
         {
             lstTests.Items.Remove(lstTests.SelectedItem);
         }
+  
     }
 }

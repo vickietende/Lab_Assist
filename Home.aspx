@@ -35,7 +35,7 @@
          <div class="container">
                 <div class="row mt-5">
                     <div  class="col-md-6">
-                    <asp:RadioButtonList ID="rdblClientType" RepeatDirection="Horizontal" runat="server">
+                    <asp:RadioButtonList ID="rdblClientType" RepeatDirection="Horizontal"  runat="server" >
                         <asp:ListItem Value="Online">Online</asp:ListItem>
                         <asp:ListItem Value="New">New</asp:ListItem>
                     </asp:RadioButtonList>
@@ -75,7 +75,7 @@
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtlabNo" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtlabNo" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ForeColor="Red" Font-Bold="true" ></asp:TextBox>
                        
                     </div>
                     <div class="col-md-1">
@@ -267,6 +267,7 @@
                  
                      <div  style="padding-left:450px;">
                 <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Send Test" Onclick="btnSave_Click"/>
+                <asp:Button ID="btnCreate" runat="server" CssClass="btn btn-primary btn-sm" Text="Create Profile" Onclick="btnCreate_Click"/>
              </div>
                
                   </div>
@@ -277,7 +278,7 @@
                  
                      <div class="col-md-10">
                      <asp:LinkButton ID="lnkRefresh" ForeColor="Blue" runat="server" OnClick="lnkRefresh_Click">Refresh Page</asp:LinkButton>
-                        <asp:Label ID="lblError" runat="server" Text="" CssClass="control-label" ></asp:Label>     
+                       <asp:Label ID="lblError" runat="server" Text="" CssClass="control-label" ></asp:Label>    
              </div>
                
                   </div>
@@ -292,4 +293,5 @@
     </ajax:RoundedCornersExtender>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/jquery-2.0.0.min.js"></script>
+    
 </asp:Content>

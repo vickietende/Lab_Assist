@@ -427,7 +427,7 @@ namespace Lab_Assist.Results
                     dc.Save(outputFileName);
                   
                     dc.Save(outputFileNamePDF);
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileName) { UseShellExecute = true });
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileNamePDF) { UseShellExecute = true });
 
                 }
 
