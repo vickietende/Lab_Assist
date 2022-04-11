@@ -24,6 +24,7 @@ namespace Lab_Assist.Results
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            MaintainScrollPositionOnPostBack = true;
             if (!IsPostBack)
             {
                 txtDateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
@@ -456,7 +457,7 @@ namespace Lab_Assist.Results
             {
                 using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
-                    using (var cmd = new SqlCommand("select LabNumber ,isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') as display from [dbo].[tbl_PendingResults] where isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') like '%" + txtSearchCustomer.Text + "%' and ProductID='" + ddl_Products.SelectedValue + "' and LabNumber not in(Select LabNumber from  tbl_TestResults where ProductID='" + ddl_Products.SelectedValue + "')", con))
+                    using (var cmd = new SqlCommand("select LabNumber ,isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') as display from [dbo].[tbl_PendingResults] where isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') like '%" + txtSearchCustomer.Text + "%' and ProductID='" + ddl_Products.SelectedValue + "' and Status = 0", con))
                     {
                         DataSet ds = new DataSet();
                         var adp = new SqlDataAdapter(cmd);

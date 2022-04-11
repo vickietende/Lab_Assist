@@ -17,6 +17,7 @@ namespace Lab_Assist
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            MaintainScrollPositionOnPostBack = true;
             if (!IsPostBack)
             {
                 txtDateCreated.Text = DateTime.Today.ToString("dd/MM/yyyy");
@@ -25,6 +26,18 @@ namespace Lab_Assist
                 loadTestCategories();
                 loadProducts();
                 loadSpecimenTypes();
+                BankEncryption64 EncQuery = new BankEncryption64();
+                if (Request.QueryString["LabNumber"] == null | Request.QueryString["LabNumber"] == String.Empty)
+                {
+
+                }
+                else
+                {
+                    ViewState["labno"] = EncQuery.Decrypt(Request.QueryString["LabNumber"].Replace(" ", "+"));
+
+                    loadCustomerDetails(ViewState["labno"].ToString());
+
+                }
 
             }
 
@@ -421,7 +434,7 @@ namespace Lab_Assist
                          
 
                             con.Close();
-                          
+
                             //loadCustomerDetails(getLabNumber(ID.ToString()));
                             //getSelectedServices(getLabNumber(ID.ToString()));
                         }
@@ -430,9 +443,9 @@ namespace Lab_Assist
                                               "ServerControlScript", script, true);
                         ClearAll();
                     }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                        lblError.Text = ex.Message;                        
+                                         
 
                         }
 
@@ -441,6 +454,7 @@ namespace Lab_Assist
               
                 else if (rdblClientType.SelectedValue == "New")
                 {
+                    ViewState["labno"] = "";
 
                     if (txtFullName.Text == "")
                     {
@@ -546,29 +560,22 @@ namespace Lab_Assist
                             string ID = IdParam.Value.ToString();
                             txtlabNo.Text = getLabNumber(ID.ToString());
                             ViewState["labno"] = getLabNumber(ID.ToString());
-                            //insertservices(getLabNumber(ID.ToString()));
-                            //SendEmail();
-                           
-
+                       
                             con.Close();
-                            
-                            //loadCustomerDetails(getLabNumber(ID.ToString()));
-                            //getSelectedServices(getLabNumber(ID.ToString()));
+
                         }
                         string script = "alert(\"Submitted successfully\");" + getLabNumber(ID.ToString());
                         ScriptManager.RegisterStartupScript(this, GetType(),
                                               "ServerControlScript", script, true);
-                        ClearAll();
+                 
                     }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
 
-                        lblError.Text = ex.Message;
+                       
                         }
 
                     }
-
-               
 
             }
             catch (Exception)
@@ -577,8 +584,44 @@ namespace Lab_Assist
             }
 
         }
+        private Boolean checkIfExists()
+        {
+           
+             
+                        using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
+                        {
+                            using (var cmd = new SqlCommand("Select * from tbl_PendingResults where LabNumber='"+ txtlabNo.Text +"' and ProductID='"+ ddl_Products.SelectedValue +"'", con))
+                            {
+                                DataTable dt = new DataTable();
+                                var adp = new SqlDataAdapter(cmd);
+                                adp.Fill(dt);
+                                if (dt.Rows.Count > 0)
+                                {
+                            return true;
+                                  
+
+                                }
+                                else
+                                {
+                            return false;
+
+                                }
+
+                            }
+                        }
+          
+        }
         protected void btnCreate_Click(object sender, EventArgs e)
         {
+            if (checkIfExists() == true)
+            {
+                string script = "alert(\"This record already Exists and has pending Results.\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+
+            }
             if (txtFullName.Text == "")
             {
                 string script = "alert(\"Full name is required\");";
@@ -657,13 +700,15 @@ namespace Lab_Assist
 
                 cmd.ExecuteNonQuery();
                 string ID = IdParam.Value.ToString();
-                txtlabNo.Text=getLabNumber(ID.ToString());
+                //txtlabNo.Text=getLabNumber(ID.ToString());
                 
                 ViewState["labno"] = getLabNumber(ID.ToString());
-           
-                string script = "alert(\"Patient Profile created successfully!! \");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
+                BankEncryption64 EncQuery = new BankEncryption64();
+                lblAgree.Text = ViewState["labno"].ToString();
+                lblEncAgree.Text = EncQuery.Encrypt(ViewState["labno"].ToString().Replace(" ", "+"));
+                ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "<script type=\"text/javascript\">showPopup()</script>");
+
+              
 
                 con.Close();
                 //ClearAll();

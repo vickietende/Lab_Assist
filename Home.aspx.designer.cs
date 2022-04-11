@@ -420,13 +420,22 @@ namespace Lab_Assist
         protected global::System.Web.UI.WebControls.LinkButton lnkRefresh;
 
         /// <summary>
-        /// lblError control.
+        /// lblAgree control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Label lblAgree;
+
+        /// <summary>
+        /// lblEncAgree control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEncAgree;
 
         /// <summary>
         /// Panel1_RoundedCornersExtender control.

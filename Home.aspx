@@ -278,7 +278,8 @@
                  
                      <div class="col-md-10">
                      <asp:LinkButton ID="lnkRefresh" ForeColor="Blue" runat="server" OnClick="lnkRefresh_Click">Refresh Page</asp:LinkButton>
-                       <asp:Label ID="lblError" runat="server" Text="" CssClass="control-label" ></asp:Label>    
+                       <asp:Label ID="lblAgree" runat="server" Text="" CssClass="control-label" ></asp:Label>    
+                          <asp:Label ID="lblEncAgree" runat="server" Text="" CssClass="control-label" ></asp:Label>   
              </div>
                
                   </div>
@@ -293,5 +294,32 @@
     </ajax:RoundedCornersExtender>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/jquery-2.0.0.min.js"></script>
-    
+     <a data-bs-target="#SubmitModal" role="button" class="btn" data-bs-toggle="modal" id="launchSubmit" style="height: 0;" data-backdrop="static"></a>
+     <div id="SubmitModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                     <%--   <button type="button" class="close" data-dismiss="modal">&times;</button>--%>
+                        <h4 class="modal-title" style="color:darkslateblue">GENOMIX MEDICAL CENTRE LABORATORY</h4>
+                    </div>
+                    <div class="modal-body panel-body small">
+                        <h5>Your Patient's profile has been successfully created: <b><%= lblAgree.Text %></b>.<br />
+                             You can now  &nbsp;
+                        <a href="Home.aspx?LabNumber=<%= lblEncAgree.Text %>">Continue...</a>.</h5>
+                    </div>
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <script type="text/javascript">
+           
+
+                function showPopup() {
+                    document.getElementById('launchSubmit').click();
+                }
+
+            </script> 
 </asp:Content>

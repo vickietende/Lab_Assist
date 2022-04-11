@@ -25,6 +25,7 @@ namespace Lab_Assist.Results
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            MaintainScrollPositionOnPostBack = true;
             if (!IsPostBack)
             {
                 txtDateCreated.Text = DateTime.Now.ToString("dd/MM/yyyy");
@@ -270,9 +271,44 @@ namespace Lab_Assist.Results
             }
 
         }
+        private Boolean checkIfExists()
+        {
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
+            {
+                using (var cmd = new SqlCommand("Select * from tbl_TestResults where LabNumber='" + txtlabNo.Text + "' and ProductID='" + ddl_Products.SelectedValue + "'", con))
+                {
+                    DataTable dt = new DataTable();
+                    var adp = new SqlDataAdapter(cmd);
+                    adp.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        return true;
+
+
+                    }
+                    else
+                    {
+                        return false;
+
+                    }
+
+                }
+            }
+
+        }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            if (checkIfExists() == true)
+            {
+                string script = "alert(\"Test Results have already been issued.Please check in your archives to retrieve results.\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+
+            }
             if (txtlabNo.Text == "")
             {
 

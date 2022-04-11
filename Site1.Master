@@ -20,7 +20,7 @@
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="assets/vendor/aos/aos.css"  rel="stylesheet">
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    
+ <%--   <link href="jquerytabs/styles/jquery-ui.min.css" rel="stylesheet" />--%>
    
 
   
@@ -160,8 +160,8 @@
   <script src="assets/vendor/aos/aos.js"></script>
        <script src="Scripts/bootstrap.min.js"></script>
     <script src="Scripts/jquery-2.0.0.min.js"></script>
-
-   
+    <script src="Scripts/jquery-ui-1.13.1.min.js"></script>
+    <script src="jquerytabs/scripts/jquery-ui.js"></script>
 
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>

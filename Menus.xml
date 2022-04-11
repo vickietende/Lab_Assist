@@ -33,7 +33,7 @@
   </Menu>
   <Menu Url ="#" Text="System Admin" Value="Administration Page">
       <SubMenu Url="~/ProductMgt.aspx" Text="Products Mgt" Value="Products page"></SubMenu>
-      <SubMenu Url="#" Text="Users/Roles" Value="Users Page"></SubMenu>
+      <SubMenu Url="~/UserRoleMgt.aspx" Text="Users/Roles" Value="Users Page"></SubMenu>
   </Menu>
   
  
