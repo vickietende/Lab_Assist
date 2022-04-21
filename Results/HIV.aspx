@@ -35,16 +35,22 @@
                
    <div class="container">
                 <div class="row mt-5">
-                     <div class="col-md-1">
-                       <asp:Label ID="Label17" runat="server" Text="Search" CssClass="control-label" ></asp:Label> 
-                        </div>
+                    
                     <div  class="col-md-6">
                         <asp:TextBox   ID="txtSearchCustomer" autocomplete="off"   runat="server" Width="550px" ></asp:TextBox>
                    
                         </div>
-                    <div  class="col-md-5">
+                    <div  class="col-md-2">
                       <asp:Button  CssClass="btn btn-primary btn-sm" ID="btnSearchCustomer" runat="server"  Text="🔍" UseSubmitBehavior="false" OnClick="btnSearchCustomer_Click" />
                         </div>
+                     <div class="col-md-1">
+                       <asp:Label ID="Label19" runat="server" Text="Customer No." CssClass="control-label" ></asp:Label> 
+                        
+                    </div>
+                    <div class="col-md-3">
+                <asp:TextBox   ID="txtCustomerNo" autocomplete="off" CssClass="form-control"  runat="server" Width="200px" ></asp:TextBox>
+                       
+                    </div>
                     </div>
              </div>
          <div class="container">

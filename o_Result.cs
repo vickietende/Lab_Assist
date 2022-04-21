@@ -9,6 +9,7 @@ namespace Lab_Assist
     {
         public static string FullName { get; set; }
         public static string IDNO { get; set; }
+        public static string CustomerNo { get; set; }
         public static string Gender { get; set; }
         public static string DOB { get; set; }
         public static string LabNumber { get; set; }

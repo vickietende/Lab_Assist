@@ -119,6 +119,9 @@
     <Content Include="assets\img\logo1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\img\word.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\js\main.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -321,6 +324,7 @@
     <Content Include="Menus.xml" />
     <Content Include="mycustomerrorpage.html" />
     <Content Include="ProductMgt.aspx" />
+    <Content Include="ResultsRepository.aspx" />
     <Content Include="Results\COVIDPCR.aspx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -534,6 +538,13 @@
       <DependentUpon>ProductMgt.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultsRepository.aspx.cs">
+      <DependentUpon>ResultsRepository.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultsRepository.aspx.designer.cs">
+      <DependentUpon>ResultsRepository.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Results\COVIDPCR.aspx.cs">
       <DependentUpon>COVIDPCR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

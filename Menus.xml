@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Menus>
   <Menu Url="~/Home.aspx" Text="Home" Value="Home Page">
+    <SubMenu Url="~/ResultsRepository.aspx" Text="Pending/Archive" Value="Repository"/>
     <SubMenu Url="~/Login.aspx" Text="LogOut" Value="Login Page"/>
     </Menu>
   <Menu Url="javascript:;" Text="Results" Value="Results Page">

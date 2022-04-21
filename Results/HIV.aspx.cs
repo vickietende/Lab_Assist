@@ -44,7 +44,7 @@ namespace Lab_Assist.Results
                 {
                     using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                     {
-                        using (var cmd = new SqlCommand("select LabNumber ,isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') as display from [dbo].[tbl_PendingResults] where isnull(Full_Name,'')+' '+isnull(LabNumber,'')+' '+isnull(IDNO,'') like '%" + txtSearchCustomer.Text + "%' and ProductID='"+ ddl_Products.SelectedValue + "' and LabNumber not in(Select LabNumber from  tbl_TestResults where ProductID='"+ ddl_Products.SelectedValue +"')", con))
+                        using (var cmd = new SqlCommand("Select pr.LabNumber, isnull(Full_Name, '') + ' ' + isnull(pr.LabNumber, '') + ' ' + isnull(IDNO, '') + ' ' + isnull(pr.CustomerNo, '') as display from tbl_CustomerDetails cd left join tbl_PendingResults pr ON cd.CustomerNo = pr.CustomerNo where isnull(Full_Name, '') + ' ' + isnull(pr.LabNumber, '') + ' ' + isnull(IDNO, '') + ' ' + isnull(pr.CustomerNo, '') like '%" + txtSearchCustomer.Text + "%' and convert(varchar, ProductID) = '"+ ddl_Products.SelectedValue + "' and pr.Status = 0", con))
                         {
                             DataSet ds = new DataSet();
                             var adp = new SqlDataAdapter(cmd);
@@ -80,7 +80,7 @@ namespace Lab_Assist.Results
             {
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
-                    using (var cmd = new SqlCommand("Select TestID,LabNumber,Full_Name,IDNO,Gender,convert(varchar,DOB,103)DOB,Email,Phone_Number,Address,LocationID,convert(varchar,Test_Date,103)Test_Date,Test_Time from [dbo].[tbl_PendingResults] where LabNumber='" + labno + "' and ProductID='"+ prodid +"'", con))
+                    using (var cmd = new SqlCommand("Select pr.LabNumber,pr.CustomerNo,Full_Name,IDNO,Gender,convert(varchar,DOB,103)DOB,Email,Phone_Number,Address,LocationID,pr.Test_Date,pr.Test_Time from tbl_CustomerDetails cd left join tbl_PendingResults pr ON cd.CustomerNo=pr.CustomerNo where LabNumber='" + labno + "' and ProductID='" + prodid + "' and pr.Status=0", con))
                     {
                         DataTable dt = new DataTable();
                         var adp = new SqlDataAdapter(cmd);
@@ -89,6 +89,7 @@ namespace Lab_Assist.Results
                         {
                             
                             txtlabNo.Text = dt.Rows[0]["LabNumber"].ToString();
+                            txtCustomerNo.Text = dt.Rows[0]["CustomerNo"].ToString();
                             txtFullName.Text = dt.Rows[0]["Full_Name"].ToString();
                             txtIDNO.Text = dt.Rows[0]["IDNO"].ToString();
                             ddl_Gender.SelectedValue = dt.Rows[0]["Gender"].ToString();
@@ -300,15 +301,7 @@ namespace Lab_Assist.Results
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (checkIfExists() == true)
-            {
-                string script = "alert(\"Test Results have already been issued.Please check in your archives to retrieve results.\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-
-
-            }
+         
             if (txtlabNo.Text == "")
             {
 
@@ -372,6 +365,7 @@ namespace Lab_Assist.Results
 
                 cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
                 cmd.Parameters.AddWithValue("@ProductID", ddl_Products.SelectedValue);
+                cmd.Parameters.AddWithValue("@CustomerNo", txtCustomerNo.Text);
                 cmd.Parameters.AddWithValue("@TestCode", txtTestCode.Text);
                 cmd.Parameters.AddWithValue("@SD_BioLine", txtSDBioline.Text);
                 cmd.Parameters.AddWithValue("@Abbot_Determine", txtAbbotDetermine.Text);
@@ -446,6 +440,7 @@ namespace Lab_Assist.Results
                     filnameTemplate.ReplaceText("[FIN]", o_Result.Final_Result);
                     filnameTemplate.ReplaceText("[USER]", Session["Username"].ToString());
                     filnameTemplate.ReplaceText("[TIME]", o_Result.TimeEntered);
+                    filnameTemplate.ReplaceText("[COMM]", o_Result.Comment);
                     generateQrCode(o_Result.FullName, o_Result.IDNO, o_Result.LabNumber, o_Result.Final_Result, o_Result.DateReceived);
                     string myImageFullPath = Server.MapPath("~/QRImages/" + o_Result.LabNumber + ".jpg");
                   
@@ -463,7 +458,7 @@ namespace Lab_Assist.Results
                     dc.Save(outputFileName);
                   
                     dc.Save(outputFileNamePDF);
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileNamePDF) { UseShellExecute = true });
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileName) { UseShellExecute = true });
 
                 }
 
@@ -535,6 +530,13 @@ namespace Lab_Assist.Results
         {
             txtlabNo.Text = "";
             //ddl_Products.SelectedIndex = 0;
+            txtFullName.Text = "";
+            txtDOB.Text = "";
+            txtCustomerNo.Text = "";
+            ddl_Gender.SelectedIndex = 0;
+            txtDoctor.Text = "";
+            txtHospital.Text = "";
+            txtlabNo.Text = "";
             txtTestCode.Text = "";
             txtSDBioline.Text = "";
             txtAbbotDetermine.Text = "";
@@ -636,6 +638,7 @@ namespace Lab_Assist.Results
                     o_Result.Abbot_Determine = dt.Rows[0]["Abbot_Determine"].ToString();
                     o_Result.Final_Result = dt.Rows[0]["Final_Result"].ToString();
                     o_Result.CreatedBy = dt.Rows[0]["CreatedBy"].ToString();
+                    o_Result.Comment = dt.Rows[0]["Comment"].ToString();
 
 
 

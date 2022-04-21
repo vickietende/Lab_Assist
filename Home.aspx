@@ -32,25 +32,24 @@
       <div  class="nav nav-tabs alert-success">
        <h4>Home</h4>
           </div>
-         <div class="container">
-                <div class="row mt-5">
-                    <div  class="col-md-6">
-                    <asp:RadioButtonList ID="rdblClientType" RepeatDirection="Horizontal"  runat="server" >
-                        <asp:ListItem Value="Online">Online</asp:ListItem>
-                        <asp:ListItem Value="New">New</asp:ListItem>
-                    </asp:RadioButtonList>
-                        </div>
-                    </div>
-             </div>
+       
            <div class="container">
-                <div class="row mt-1">
+                <div class="row mt-5">
                     <div  class="col-md-6">
                         <asp:TextBox   ID="txtSearchCustomer" autocomplete="off"   runat="server" Width="550px" ></asp:TextBox>
                    
                         </div>
-                    <div  class="col-md-6">
+                    <div  class="col-md-2">
                       <asp:Button  CssClass="btn btn-primary btn-sm" ID="btnSearchCustomer" runat="server"  Text="🔍" UseSubmitBehavior="false" Onclick="btnSearchCustomer_Click" />
                         </div>
+                     <div class="col-md-1">
+                       <asp:Label ID="Label19" runat="server" Text="Customer No." CssClass="control-label" ></asp:Label> 
+                        
+                    </div>
+                    <div class="col-md-3">
+                <asp:TextBox   ID="txtCustomerNo" autocomplete="off" CssClass="form-control"  runat="server" Width="200px" ></asp:TextBox>
+                       
+                    </div>
                     </div>
              </div>
          <div class="container">
@@ -216,6 +215,33 @@
           <div class="container">
                 <div class="row mt-1">
                      <div  class="col-md-1">
+                         <asp:Label ID="Label14" runat="server" Text="Payment Method"></asp:Label>
+                        </div>
+                    <div  class="col-md-3">
+                    <asp:DropDownList ID="ddl_PaymentMethods" runat="server" CssClass="form-control" AutoPostBack="true" style="width:200px;" OnSelectedIndexChanged="ddl_PaymentMethods_SelectedIndexChanged"></asp:DropDownList>
+                        </div>
+                        <div class="col-md-1">
+                       <asp:Label ID="Label17" runat="server" Text="Suffix No." CssClass="control-label" Enabled="false" ></asp:Label> 
+                        
+                    </div>
+                    <div class="col-md-3">
+                 <asp:TextBox ID="txtSuffixNo" class="form-group" Width="200px" autocomplete="off" runat="server" Enabled="false"> </asp:TextBox>
+                       
+                    </div>
+                        <div  class="col-md-1">
+                         <asp:Label ID="Label18" runat="server" Text="Receipt No."></asp:Label>
+                        </div>
+                    <div  class="col-md-3">
+                  <asp:TextBox ID="txtReceiptNo" class="form-group" autocomplete="off"  Width="200px" runat="server" Enabled="false" ></asp:TextBox>
+                       
+                        </div>
+                  
+                   
+                    </div>
+             </div>
+          <div class="container">
+                <div class="row mt-1">
+                     <div  class="col-md-1">
                          <asp:Label ID="Label15" runat="server" Text="Category"></asp:Label>
                         </div>
                     <div  class="col-md-3">
@@ -266,8 +292,8 @@
               <div class="row  mt-1">
                  
                      <div  style="padding-left:450px;">
-                <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Send Test" Onclick="btnSave_Click"/>
-                <asp:Button ID="btnCreate" runat="server" CssClass="btn btn-primary btn-sm" Text="Create Profile" Onclick="btnCreate_Click"/>
+                <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Save Details" Onclick="btnSave_Click"/>
+                <asp:Button ID="btnClear" runat="server" CssClass="btn btn-primary btn-sm" Text="Clear" Onclick="btnClear_Click"/>
              </div>
                
                   </div>
@@ -278,6 +304,7 @@
                  
                      <div class="col-md-10">
                      <asp:LinkButton ID="lnkRefresh" ForeColor="Blue" runat="server" OnClick="lnkRefresh_Click">Refresh Page</asp:LinkButton>
+                          <asp:Label ID="Label20" runat="server" Text="Test Code" CssClass="control-label" ></asp:Label>
                        <asp:Label ID="lblAgree" runat="server" Text="" CssClass="control-label" ></asp:Label>    
                           <asp:Label ID="lblEncAgree" runat="server" Text="" CssClass="control-label" ></asp:Label>   
              </div>
@@ -304,7 +331,7 @@
                         <h4 class="modal-title" style="color:darkslateblue">GENOMIX MEDICAL CENTRE LABORATORY</h4>
                     </div>
                     <div class="modal-body panel-body small">
-                        <h5>Your Patient's profile has been successfully created: <b><%= lblAgree.Text %></b>.<br />
+                        <h5>Your Patient's details have been successfully created: <b><%= lblAgree.Text %></b>.<br />
                              You can now  &nbsp;
                         <a href="Home.aspx?LabNumber=<%= lblEncAgree.Text %>">Continue...</a>.</h5>
                     </div>
