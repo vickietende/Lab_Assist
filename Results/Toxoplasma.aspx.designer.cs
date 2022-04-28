@@ -11,7 +11,7 @@ namespace Lab_Assist.Results
 {
 
 
-    public partial class HIV
+    public partial class Toxoplasma
     {
 
         /// <summary>
@@ -321,6 +321,15 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.DropDownList ddl_SpecimenTypes;
 
         /// <summary>
+        /// Label17 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label17;
+
+        /// <summary>
         /// Label7 control.
         /// </summary>
         /// <remarks>
@@ -330,13 +339,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label7;
 
         /// <summary>
-        /// txtSDBioline control.
+        /// txtToxoIgM control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSDBioline;
+        protected global::System.Web.UI.WebControls.TextBox txtToxoIgM;
 
         /// <summary>
         /// Label8 control.
@@ -348,31 +357,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label8;
 
         /// <summary>
-        /// txtAbbotDetermine control.
+        /// txtToxoIgG control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAbbotDetermine;
-
-        /// <summary>
-        /// Label9 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label9;
-
-        /// <summary>
-        /// txtFinalResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFinalResult;
+        protected global::System.Web.UI.WebControls.TextBox txtToxoIgG;
 
         /// <summary>
         /// Label18 control.

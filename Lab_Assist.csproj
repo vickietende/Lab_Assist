@@ -321,16 +321,28 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Login.aspx" />
-    <Content Include="Menus.xml" />
+    <Content Include="Menus.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="mycustomerrorpage.html" />
     <Content Include="ProductMgt.aspx" />
     <Content Include="ResultsRepository.aspx" />
     <Content Include="Results\COVIDPCR.aspx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Results\Cytomegalovirus.aspx" />
+    <Content Include="Results\HepatitisA.aspx" />
+    <Content Include="Results\HepatitisB.aspx" />
+    <Content Include="Results\HepatitisC.aspx" />
+    <Content Include="Results\HerpesSimplexVirus.aspx" />
     <Content Include="Results\HIV.aspx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Results\HIV_ViralLoad.aspx" />
+    <Content Include="Results\Rubella.aspx" />
+    <Content Include="Results\ToRCH.aspx" />
+    <Content Include="Results\Toxoplasma.aspx" />
+    <Content Include="Results\VDRL.aspx" />
     <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -554,6 +566,41 @@
       <DependentUpon>COVIDPCR.aspx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Results\Cytomegalovirus.aspx.cs">
+      <DependentUpon>Cytomegalovirus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\Cytomegalovirus.aspx.designer.cs">
+      <DependentUpon>Cytomegalovirus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\HepatitisA.aspx.cs">
+      <DependentUpon>HepatitisA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\HepatitisA.aspx.designer.cs">
+      <DependentUpon>HepatitisA.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\HepatitisB.aspx.cs">
+      <DependentUpon>HepatitisB.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\HepatitisB.aspx.designer.cs">
+      <DependentUpon>HepatitisB.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\HepatitisC.aspx.cs">
+      <DependentUpon>HepatitisC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\HepatitisC.aspx.designer.cs">
+      <DependentUpon>HepatitisC.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\HerpesSimplexVirus.aspx.cs">
+      <DependentUpon>HerpesSimplexVirus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\HerpesSimplexVirus.aspx.designer.cs">
+      <DependentUpon>HerpesSimplexVirus.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Results\HIV.aspx.cs">
       <DependentUpon>HIV.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -563,6 +610,20 @@
       <DependentUpon>HIV.aspx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Results\HIV_ViralLoad.aspx.cs">
+      <DependentUpon>HIV_ViralLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\HIV_ViralLoad.aspx.designer.cs">
+      <DependentUpon>HIV_ViralLoad.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\Rubella.aspx.cs">
+      <DependentUpon>Rubella.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\Rubella.aspx.designer.cs">
+      <DependentUpon>Rubella.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Results\Site2.Master.cs">
       <DependentUpon>Site2.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -571,6 +632,27 @@
     <Compile Include="Results\Site2.Master.designer.cs">
       <DependentUpon>Site2.Master</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Results\ToRCH.aspx.cs">
+      <DependentUpon>ToRCH.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\ToRCH.aspx.designer.cs">
+      <DependentUpon>ToRCH.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\Toxoplasma.aspx.cs">
+      <DependentUpon>Toxoplasma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\Toxoplasma.aspx.designer.cs">
+      <DependentUpon>Toxoplasma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\VDRL.aspx.cs">
+      <DependentUpon>VDRL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Results\VDRL.aspx.designer.cs">
+      <DependentUpon>VDRL.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>
@@ -617,6 +699,34 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\COVIDPCRTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\HIVViralLoadTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\VDRLResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\HepatitisBResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\HepatitisAResultsTemplate.docx" />
+    <Content Include="Templates\HepatitisCResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\HerpesSimplexVirusResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\RubellaResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\ToRCHResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\ToxoplasmaResultsTemplate.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\CytomegalovirusResultsTemplate.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Web.Debug.config">

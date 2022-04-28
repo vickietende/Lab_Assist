@@ -561,53 +561,7 @@ namespace Lab_Assist.Results
 
         }
 
-        protected void btnEdit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-               
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[SP_EditHIVResults]", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
-                cmd.Parameters.AddWithValue("@ProductID", ddl_Products.SelectedValue);
-               
-                cmd.Parameters.AddWithValue("@Comment", txtComment.Text);
-                cmd.Parameters.AddWithValue("@Payment_Status", ChkIsPaid.Checked);
-                cmd.Parameters.AddWithValue("@CreatedBy", Session["Username"].ToString());
-
-
-                ViewState["LabNumber"] = txtlabNo.Text;
-
-
-                if (con.State != ConnectionState.Open)
-                {
-                    con.Open();
-
-                }
-
-
-                cmd.ExecuteNonQuery();
-
-
-                string script = "alert(\"Results Successfully Updated\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                ClearAll();
-
-                con.Close();
-
-
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-        }
+     
         public void getPatientData(string labno, string prodid)
         {
             try

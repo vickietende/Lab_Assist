@@ -146,7 +146,7 @@
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtIDNO" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtIDNO" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" PlaceHolder="Format:63000000A63" ></asp:TextBox>
                        
                     </div>
                   </div>

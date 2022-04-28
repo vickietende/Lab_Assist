@@ -11,7 +11,7 @@ namespace Lab_Assist.Results
 {
 
 
-    public partial class HIV
+    public partial class HepatitisC
     {
 
         /// <summary>
@@ -330,13 +330,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label7;
 
         /// <summary>
-        /// txtSDBioline control.
+        /// txtHepatitisCAntibody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSDBioline;
+        protected global::System.Web.UI.WebControls.TextBox txtHepatitisCAntibody;
 
         /// <summary>
         /// Label8 control.
@@ -348,31 +348,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label8;
 
         /// <summary>
-        /// txtAbbotDetermine control.
+        /// txtHepatitisCCoreAntigen control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAbbotDetermine;
-
-        /// <summary>
-        /// Label9 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label9;
-
-        /// <summary>
-        /// txtFinalResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFinalResult;
+        protected global::System.Web.UI.WebControls.TextBox txtHepatitisCCoreAntigen;
 
         /// <summary>
         /// Label18 control.

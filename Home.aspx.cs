@@ -346,6 +346,32 @@ namespace Lab_Assist
             ClearAll();
 
         }
+        private Boolean checkIfExists()
+        {
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
+            {
+                using (var cmd = new SqlCommand("Select * from tbl_CustomerDetails where IDNO = '"+ txtIDNO.Text +"' ", con))
+                {
+                    DataTable dt = new DataTable();
+                    var adp = new SqlDataAdapter(cmd);
+                    adp.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        return true;
+
+
+                    }
+                    else
+                    {
+                        return false;
+
+                    }
+
+                }
+            }
+
+        }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
@@ -402,9 +428,12 @@ namespace Lab_Assist
                     return;
 
                 }
-                 
-
-                  
+                if (checkIfExists() == true)
+                {
+                    saveTests(txtCustomerNo.Text);
+                }
+                else
+                {
                     try
                     {
 
@@ -445,16 +474,18 @@ namespace Lab_Assist
                         txtlabNo.Text = getLabNumber(ID.ToString());
                         ViewState["labno"] = getLabNumber(ID.ToString());
 
-                        ViewState["CustNo"]=getCustomerNo(ID);
+                        ViewState["CustNo"] = getCustomerNo(ID);
                         saveTests(ViewState["CustNo"].ToString());
                         con.Close();
 
                     }
-                        catch (Exception)
-                        {
+                    catch (Exception)
+                    {
 
-                       
-                        }
+
+                    }
+
+                }
 
             }
             catch (Exception)
@@ -539,33 +570,7 @@ namespace Lab_Assist
             }
 
         }
-        private Boolean checkIfExists()
-        {
-           
-             
-                        using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
-                        {
-                            using (var cmd = new SqlCommand("Select * from tbl_PendingResults where LabNumber='"+ txtlabNo.Text +"' and ProductID='"+ ddl_Products.SelectedValue +"'", con))
-                            {
-                                DataTable dt = new DataTable();
-                                var adp = new SqlDataAdapter(cmd);
-                                adp.Fill(dt);
-                                if (dt.Rows.Count > 0)
-                                {
-                            return true;
-                                  
-
-                                }
-                                else
-                                {
-                            return false;
-
-                                }
-
-                            }
-                        }
-          
-        }
+    
      
         private string getLabNumber(string scopeid)
         {

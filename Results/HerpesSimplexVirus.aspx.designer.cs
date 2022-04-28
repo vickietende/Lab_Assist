@@ -11,7 +11,7 @@ namespace Lab_Assist.Results
 {
 
 
-    public partial class HIV
+    public partial class HerpesSimplexVirus
     {
 
         /// <summary>
@@ -321,6 +321,15 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.DropDownList ddl_SpecimenTypes;
 
         /// <summary>
+        /// Label21 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label21;
+
+        /// <summary>
         /// Label7 control.
         /// </summary>
         /// <remarks>
@@ -330,13 +339,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label7;
 
         /// <summary>
-        /// txtSDBioline control.
+        /// txtHSVIIgM control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSDBioline;
+        protected global::System.Web.UI.WebControls.TextBox txtHSVIIgM;
 
         /// <summary>
         /// Label8 control.
@@ -348,13 +357,13 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label8;
 
         /// <summary>
-        /// txtAbbotDetermine control.
+        /// txtHSVIIgG control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAbbotDetermine;
+        protected global::System.Web.UI.WebControls.TextBox txtHSVIIgG;
 
         /// <summary>
         /// Label9 control.
@@ -366,13 +375,40 @@ namespace Lab_Assist.Results
         protected global::System.Web.UI.WebControls.Label Label9;
 
         /// <summary>
-        /// txtFinalResult control.
+        /// Label17 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFinalResult;
+        protected global::System.Web.UI.WebControls.Label Label17;
+
+        /// <summary>
+        /// txtHSVIIIgM control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHSVIIIgM;
+
+        /// <summary>
+        /// Label20 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label20;
+
+        /// <summary>
+        /// txtHSVIIIgG control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtHSVIIIgG;
 
         /// <summary>
         /// Label18 control.

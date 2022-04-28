@@ -20,7 +20,7 @@ using GemBox.Document;
 
 namespace Lab_Assist.Results
 {
-    public partial class COVIDPCR : System.Web.UI.Page
+    public partial class Cytomegalovirus : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,6 +33,7 @@ namespace Lab_Assist.Results
                 loadSpecimenTypes();
                 loadProductDetails(ddl_Products.SelectedValue);
             }
+
         }
         private void loadProducts()
         {
@@ -61,7 +62,7 @@ namespace Lab_Assist.Results
                         }
 
                         ddl_Products.DataBind();
-                        ddl_Products.SelectedValue = "10002";
+                        ddl_Products.SelectedValue = "10009";
                         ddl_Products.Items.Insert(0, "-- Select Test --");
 
                     }
@@ -188,270 +189,6 @@ namespace Lab_Assist.Results
 
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
-        {
-            if (txtlabNo.Text == "")
-            {
-
-                string script = "alert(\"Lab Number is required!!\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-
-            }
-            if (ddl_Products.SelectedIndex == 0)
-            {
-
-                string script = "alert(\"Test is required!!\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-
-            }
-            if (txtSARS.Text == "")
-            {
-
-                string script = "alert(\"SARS COV 2 result is required!!\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-
-            }
-            if (txtReferenceInterval.Text == "")
-            {
-
-                string script = "alert(\"Reference Interval is required!!\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-                return;
-
-            }
-        
-            try
-            {
-                ViewState["labno"] = "";
-                ViewState["ProdID"] = "";
-                DateTime ReceivedDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
-                ReceivedDate = Convert.ToDateTime(ReceivedDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-
-                DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
-                DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-
-
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[SP_SaveCOVIDResults]", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
-                cmd.Parameters.AddWithValue("@ProductID", ddl_Products.SelectedValue);
-                cmd.Parameters.AddWithValue("@CustomerNo", txtCustomerNo.Text);
-                cmd.Parameters.AddWithValue("@TestCode", txtTestCode.Text);
-                cmd.Parameters.AddWithValue("@DateReceived", ReceivedDate);
-                cmd.Parameters.AddWithValue("@TimeEntered", txtTime.Text);
-                cmd.Parameters.AddWithValue("@Doctor", txtDoctor.Text);
-                cmd.Parameters.AddWithValue("@Hospital", txtHospital.Text);
-                cmd.Parameters.AddWithValue("@SARSCOV2", txtSARS.Text);
-                cmd.Parameters.AddWithValue("@ReferenceInterval", txtReferenceInterval.Text);
-                cmd.Parameters.AddWithValue("@ResultDocument", "~/Docs/" + txtlabNo.Text + ".pdf");
-                cmd.Parameters.AddWithValue("@Comment", txtComment.Text);
-                cmd.Parameters.AddWithValue("@Payment_Status", ChkIsPaid.Checked);
-                cmd.Parameters.AddWithValue("@CreatedBy", Session["Username"].ToString());
-
-                if (con.State != ConnectionState.Open)
-                {
-                    con.Open();
-
-                }
-                SqlParameter IdParam = new SqlParameter("@ID", SqlDbType.BigInt);
-                IdParam.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(IdParam);
-
-                cmd.ExecuteNonQuery();
-                string ID = IdParam.Value.ToString();
-                getLabNumber(ID.ToString());
-                ViewState["labno"] = getLabNumber(ID.ToString());
-                ViewState["ProdID"] = ddl_Products.SelectedValue;
-                createResultDoc(getLabNumber(ID.ToString()), ddl_Products.SelectedValue);
-                loadProducts();
-                loadProductDetails(ddl_Products.SelectedValue);
-                string script = "alert(\"Results Successfully Saved\");";
-                ScriptManager.RegisterStartupScript(this, GetType(),
-                                      "ServerControlScript", script, true);
-
-
-                con.Close();
-
-
-
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-        protected void createResultDoc(string labno, string prodid)
-        {
-            try
-            {
-                if (labno != "" & prodid != "")
-                {
-                    getPatientData(labno, prodid);
-                    string LabNumber = o_Result.LabNumber;
-
-
-                    DocX filnameTemplate = DocX.Load(System.Web.Hosting.HostingEnvironment.MapPath("~/Templates/COVIDPCRTemplate.docx"));
-                    string outputFileName = System.Web.Hosting.HostingEnvironment.MapPath("~/Docs/" + LabNumber + ".docx");
-                    string outputFileNamePDF = System.Web.Hosting.HostingEnvironment.MapPath("~/Docs/" + LabNumber + ".pdf");
-                    filnameTemplate.ReplaceText("[NAME]", o_Result.FullName);
-                    filnameTemplate.ReplaceText("[IDNO]", o_Result.IDNO);
-                    filnameTemplate.ReplaceText("[GENDER]", o_Result.Gender);
-                    filnameTemplate.ReplaceText("[DOB]", o_Result.DOB);
-                    filnameTemplate.ReplaceText("[LABNO]", o_Result.LabNumber);
-                    filnameTemplate.ReplaceText("[DATE]", o_Result.DateReceived);
-                    filnameTemplate.ReplaceText("[DOC]", o_Result.Doctor);
-                    filnameTemplate.ReplaceText("[HOSP]", o_Result.Hospital);
-                    filnameTemplate.ReplaceText("[RES]", o_Result.SARSCOV2);
-                    filnameTemplate.ReplaceText("[INT]", o_Result.ReferenceInterval);
-                    filnameTemplate.ReplaceText("[COM]", o_Result.Comment);
-                    filnameTemplate.ReplaceText("[USER]", Session["Username"].ToString());
-                    filnameTemplate.ReplaceText("[TIME]", o_Result.TimeEntered);
-                    generateQrCode(o_Result.FullName, o_Result.IDNO, o_Result.LabNumber, o_Result.SARSCOV2, o_Result.DateReceived);
-                    string myImageFullPath = Server.MapPath("~/QRImages/" + o_Result.LabNumber + ".jpg");
-
-
-                    filnameTemplate.SaveAs(outputFileName);
-                    DocumentCore dc = DocumentCore.Load(outputFileName);
-                    DocumentPaginator dp = dc.GetPaginator();
-                    // Find the text "QRCODE" on the 1st page.
-                    SautinSoft.Document.ContentRange cr = dp.Pages[0].Content.Find("QRCODE").LastOrDefault();
-                    if (cr != null)
-                    {
-                        SautinSoft.Document.Drawing.Picture pic = new SautinSoft.Document.Drawing.Picture(dc, myImageFullPath);
-                        cr.End.Insert(pic.Content);
-                    }
-                    dc.Save(outputFileName);
-
-                    dc.Save(outputFileNamePDF);
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileName) { UseShellExecute = true });
-
-                }
-
-            }
-            catch (Exception)
-            {
-
-
-            }
-
-        }
-        private void generateQrCode(string name, string idno, string labno, string testresult, string date)
-        {
-            try
-            {
-                var writer = new BarcodeWriter();
-                writer.Format = BarcodeFormat.QR_CODE;
-                var result = writer.Write("Full Name: " + name + "\n" + "IDNO: " + "\n" + idno + "\n" + " LabNo: " + labno + "--" + " SARS-COV 2 PCR: " + testresult + " Date: " + date);
-                string path = Server.MapPath("~/QRImages/" + labno + ".jpg");
-                var barcodeBitmap = new Bitmap(result);
-
-                using (MemoryStream memory = new MemoryStream())
-                {
-                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
-                    {
-                        barcodeBitmap.Save(memory, ImageFormat.Jpeg);
-                        byte[] bytes = memory.ToArray();
-                        fs.Write(bytes, 0, bytes.Length);
-                    }
-                }
-                imgQRCode.Visible = true;
-                imgQRCode.ImageUrl = "~/QRImages/" + labno + ".jpg";
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-
-        }
-        private string getLabNumber(string scopeid)
-        {
-            string newlabnumber = "";
-            try
-            {
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
-                {
-                    using (var cmd = new SqlCommand("Select LabNumber from tbl_TestResults where ID ='" + scopeid + "'", con))
-                    {
-                        DataTable dt = new DataTable();
-                        var adp = new SqlDataAdapter(cmd);
-                        adp.Fill(dt);
-                        if (dt.Rows.Count > 0)
-                        {
-                            newlabnumber = dt.Rows[0]["LabNumber"].ToString();
-                            return newlabnumber;
-
-
-                        }
-                        else
-                        {
-                            return "";
-                        }
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-            return newlabnumber;
-        }
-        public void getPatientData(string labno, string prodid)
-        {
-            try
-            {
-
-
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[SP_GetCustomerDataforResults]", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@LabNumber", labno);
-                cmd.Parameters.AddWithValue("@ProductID", prodid);
-                DataTable dt = new DataTable();
-                var adp = new SqlDataAdapter(cmd);
-                adp.Fill(dt);
-                if (dt.Rows.Count > 0)
-                {
-                    o_Result.FullName = dt.Rows[0]["Full_Name"].ToString();
-                    o_Result.IDNO = dt.Rows[0]["IDNO"].ToString();
-                    o_Result.LabNumber = dt.Rows[0]["LabNumber"].ToString();
-                    o_Result.Gender = dt.Rows[0]["Gender"].ToString();
-                    o_Result.DOB = dt.Rows[0]["DOB"].ToString();
-                    o_Result.DateReceived = dt.Rows[0]["DateReceived"].ToString();
-                    o_Result.TimeEntered = dt.Rows[0]["TimeEntered"].ToString();
-                    o_Result.Doctor = dt.Rows[0]["Doctor"].ToString();
-                    o_Result.Hospital = dt.Rows[0]["Hospital"].ToString();
-                    o_Result.SARSCOV2 = dt.Rows[0]["SARS_COV2_PCR"].ToString();
-                    o_Result.ReferenceInterval = dt.Rows[0]["ReferenceInterval"].ToString();
-                    o_Result.Comment = dt.Rows[0]["Comment"].ToString();
-                    o_Result.CreatedBy = dt.Rows[0]["CreatedBy"].ToString();
-
-                }
-
-
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-
-        }
-
         protected void btnSearchCustomer_Click(object sender, EventArgs e)
         {
             try
@@ -485,12 +222,12 @@ namespace Lab_Assist.Results
             catch (Exception)
             {
             }
+
         }
 
         protected void lstCustomers_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadCustomerDetails(lstCustomers.SelectedValue, ddl_Products.SelectedValue);
-
         }
         private void loadCustomerDetails(string labno, string prodid)
         {
@@ -533,40 +270,235 @@ namespace Lab_Assist.Results
 
         }
 
-        protected void btnClear_Click(object sender, EventArgs e)
+        protected void btnSave_Click(object sender, EventArgs e)
         {
-            ClearAll();
-        }
-        private void ClearAll()
-        {
-            txtlabNo.Text = "";
-            txtCustomerNo.Text = "";
-            txtFullName.Text = "";
-            txtDOB.Text = "";
-            txtDoctor.Text = "";
-            txtHospital.Text = "";
-           
-            //ddl_Products.SelectedIndex = 0;
-            txtTestCode.Text = "";
-            txtSARS.Text = "";
-            txtReferenceInterval.Text = "";
-            ChkIsPaid.Checked = false;
-            txtComment.Text = "";
-            imgQRCode.ImageUrl = "";
-            litQRCode.Text = "";
-            if (lstCustomers.Visible == true)
+            if (txtlabNo.Text == "")
             {
-                lstCustomers.DataSource = null;
-                lstCustomers.Visible = false;
+
+                string script = "alert(\"Lab Number is required!!\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
             }
-            loadProducts();
-            loadProductDetails(ddl_Products.SelectedValue);
+            if (ddl_Products.SelectedIndex == 0)
+            {
+
+                string script = "alert(\"Test is required!!\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+            }
+            if (txtCytoIgM.Text == "")
+            {
+
+                string script = "alert(\"Cytomegalovirus IgM result is required!!\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+            }
+            if (txtCytoIgG.Text == "")
+            {
+
+                string script = "alert(\"Cytomegalovirus IgG result is required!!\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+                return;
+
+            }
+         
+            try
+            {
+                ViewState["labno"] = "";
+                ViewState["ProdID"] = "";
+                DateTime ReceivedDate = DateTime.ParseExact(txtDateCreated.Text, "dd/MM/yyyy", null);
+                ReceivedDate = Convert.ToDateTime(ReceivedDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+                DateTime DOBDate = DateTime.ParseExact(txtDOB.Text, "dd/MM/yyyy", null);
+                DOBDate = Convert.ToDateTime(DOBDate, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
+
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_SaveCytomegalovirusResults]", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@LabNumber", txtlabNo.Text);
+                cmd.Parameters.AddWithValue("@ProductID", ddl_Products.SelectedValue);
+                cmd.Parameters.AddWithValue("@CustomerNo", txtCustomerNo.Text);
+                cmd.Parameters.AddWithValue("@TestCode", txtTestCode.Text);
+                cmd.Parameters.AddWithValue("@CytoIgM", txtCytoIgM.Text);
+                cmd.Parameters.AddWithValue("@CytoIgG", txtCytoIgG.Text);
+                cmd.Parameters.AddWithValue("@DateReceived", ReceivedDate);
+                cmd.Parameters.AddWithValue("@TimeEntered", txtTime.Text);
+                cmd.Parameters.AddWithValue("@Doctor", txtDoctor.Text);
+                cmd.Parameters.AddWithValue("@Hospital", txtHospital.Text);
+                cmd.Parameters.AddWithValue("@ResultDocument", "~/Docs/" + txtlabNo.Text + ".pdf");
+                cmd.Parameters.AddWithValue("@Comment", txtComment.Text);
+                cmd.Parameters.AddWithValue("@Payment_Status", ChkIsPaid.Checked);
+                cmd.Parameters.AddWithValue("@CreatedBy", Session["Username"].ToString());
+
+                if (con.State != ConnectionState.Open)
+                {
+                    con.Open();
+
+                }
+                SqlParameter IdParam = new SqlParameter("@ID", SqlDbType.BigInt);
+                IdParam.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(IdParam);
+
+                cmd.ExecuteNonQuery();
+                string ID = IdParam.Value.ToString();
+                getLabNumber(ID.ToString());
+
+                ViewState["labno"] = getLabNumber(ID.ToString());
+                ViewState["ProdID"] = ddl_Products.SelectedValue;
+                createResultDoc(getLabNumber(ID.ToString()), ddl_Products.SelectedValue);
+                loadProducts();
+                loadProductDetails(ddl_Products.SelectedValue);
+                string script = "alert(\"Results Successfully Saved\");";
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                                      "ServerControlScript", script, true);
+
+
+                con.Close();
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
 
         }
-
-        protected void btnReadQR_Click(object sender, EventArgs e)
+        protected void createResultDoc(string labno, string prodid)
         {
-            ReadQRCode(txtlabNo.Text);
+            try
+            {
+                if (labno != "" & prodid != "")
+                {
+                    getPatientData(labno, prodid);
+                    string LabNumber = o_Result.LabNumber;
+
+
+                    DocX filnameTemplate = DocX.Load(System.Web.Hosting.HostingEnvironment.MapPath("~/Templates/CytomegalovirusResultsTemplate.docx"));
+                    string outputFileName = System.Web.Hosting.HostingEnvironment.MapPath("~/Docs/" + LabNumber + ".docx");
+                    string outputFileNamePDF = System.Web.Hosting.HostingEnvironment.MapPath("~/Docs/" + LabNumber + ".pdf");
+                    filnameTemplate.ReplaceText("[NAME]", o_Result.FullName);
+                    filnameTemplate.ReplaceText("[IDNO]", o_Result.IDNO);
+                    filnameTemplate.ReplaceText("[GENDER]", o_Result.Gender);
+                    filnameTemplate.ReplaceText("[DOB]", o_Result.DOB);
+                    filnameTemplate.ReplaceText("[LABNO]", o_Result.LabNumber);
+                    filnameTemplate.ReplaceText("[DATE]", o_Result.DateReceived);
+                    filnameTemplate.ReplaceText("[DOC]", o_Result.Doctor);
+                    filnameTemplate.ReplaceText("[HOSP]", o_Result.Hospital);
+                    filnameTemplate.ReplaceText("[CYTOIgM]", o_Result.CytomegalovirusIgM);
+                    filnameTemplate.ReplaceText("[CYTOIgG]", o_Result.CytomegalovirusIgG);
+                    filnameTemplate.ReplaceText("[USER]", Session["Username"].ToString());
+                    filnameTemplate.ReplaceText("[TIME]", o_Result.TimeEntered);
+                    filnameTemplate.ReplaceText("[COMM]", o_Result.Comment);
+                    generateQrCode(o_Result.FullName, o_Result.IDNO, o_Result.LabNumber, o_Result.CytomegalovirusIgM,o_Result.CytomegalovirusIgG, o_Result.DateReceived);
+                    string myImageFullPath = Server.MapPath("~/QRImages/" + o_Result.LabNumber + ".jpg");
+
+
+                    filnameTemplate.SaveAs(outputFileName);
+                    DocumentCore dc = DocumentCore.Load(outputFileName);
+                    DocumentPaginator dp = dc.GetPaginator();
+                    // Find the text "QRCODE" on the 1st page.
+                    SautinSoft.Document.ContentRange cr = dp.Pages[0].Content.Find("QRCODE").LastOrDefault();
+                    if (cr != null)
+                    {
+                        SautinSoft.Document.Drawing.Picture pic = new SautinSoft.Document.Drawing.Picture(dc, myImageFullPath);
+                        cr.End.Insert(pic.Content);
+                    }
+                    dc.Save(outputFileName);
+
+                    dc.Save(outputFileNamePDF);
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(outputFileName) { UseShellExecute = true });
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+        }
+        public void getPatientData(string labno, string prodid)
+        {
+            try
+            {
+
+
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_GetCustomerDataforResults]", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LabNumber", labno);
+                cmd.Parameters.AddWithValue("@ProductID", prodid);
+                DataTable dt = new DataTable();
+                var adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    o_Result.FullName = dt.Rows[0]["Full_Name"].ToString();
+                    o_Result.IDNO = dt.Rows[0]["IDNO"].ToString();
+                    o_Result.LabNumber = dt.Rows[0]["LabNumber"].ToString();
+                    o_Result.Gender = dt.Rows[0]["Gender"].ToString();
+                    o_Result.DOB = dt.Rows[0]["DOB"].ToString();
+                    o_Result.DateReceived = dt.Rows[0]["DateReceived"].ToString();
+                    o_Result.TimeEntered = dt.Rows[0]["TimeEntered"].ToString();
+                    o_Result.Doctor = dt.Rows[0]["Doctor"].ToString();
+                    o_Result.Hospital = dt.Rows[0]["Hospital"].ToString();
+                    o_Result.CytomegalovirusIgM = dt.Rows[0]["CytomegalovirusIgM"].ToString();
+                    o_Result.CytomegalovirusIgG = dt.Rows[0]["CytomegalovirusIgG"].ToString();
+                    o_Result.CreatedBy = dt.Rows[0]["CreatedBy"].ToString();
+                    o_Result.Comment = dt.Rows[0]["Comment"].ToString();
+
+
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+        }
+        private void generateQrCode(string name, string idno, string labno, string testresult,string testresult2, string date)
+        {
+            try
+            {
+                var writer = new BarcodeWriter();
+                writer.Format = BarcodeFormat.QR_CODE;
+                var result = writer.Write("Full Name: " + name + "\n" + "IDNO: " + "\n" + idno + "\n" + " LabNo: " + labno + "--" + " Cytomegalovirus IgM: " + testresult + "  Cytomegalovirus IgG" +  testresult2 + " Date: " + date);
+                string path = Server.MapPath("~/QRImages/" + labno + ".jpg");
+                var barcodeBitmap = new Bitmap(result);
+
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        barcodeBitmap.Save(memory, ImageFormat.Jpeg);
+                        byte[] bytes = memory.ToArray();
+                        fs.Write(bytes, 0, bytes.Length);
+                    }
+                }
+                imgQRCode.Visible = true;
+                imgQRCode.ImageUrl = "~/QRImages/" + labno + ".jpg";
+
+            }
+            catch (Exception)
+            {
+
+            }
+
 
         }
         private void ReadQRCode(string labno)
@@ -589,6 +521,77 @@ namespace Lab_Assist.Results
             }
 
         }
+        private void ClearAll()
+        {
+            txtlabNo.Text = "";
+            //ddl_Products.SelectedIndex = 0;
+            txtFullName.Text = "";
+            txtDOB.Text = "";
+            txtCustomerNo.Text = "";
+            ddl_Gender.SelectedIndex = 0;
+            txtDoctor.Text = "";
+            txtIDNO.Text = "";
+            txtHospital.Text = "";
+            txtlabNo.Text = "";
+            txtTestCode.Text = "";
+            txtCytoIgM.Text = "";
+            txtCytoIgG.Text = "";
+            
+            ChkIsPaid.Checked = false;
+            txtComment.Text = "";
+            imgQRCode.ImageUrl = "";
+            litQRCode.Text = "";
+            if (lstCustomers.Visible == true)
+            {
+                lstCustomers.DataSource = null;
+                lstCustomers.Visible = false;
+            }
+            loadProducts();
+            loadProductDetails(ddl_Products.SelectedValue);
 
+        }
+        private string getLabNumber(string scopeid)
+        {
+            string newlabnumber = "";
+            try
+            {
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
+                {
+                    using (var cmd = new SqlCommand("Select LabNumber from tbl_TestResults where ID ='" + scopeid + "'", con))
+                    {
+                        DataTable dt = new DataTable();
+                        var adp = new SqlDataAdapter(cmd);
+                        adp.Fill(dt);
+                        if (dt.Rows.Count > 0)
+                        {
+                            newlabnumber = dt.Rows[0]["LabNumber"].ToString();
+                            return newlabnumber;
+
+
+                        }
+                        else
+                        {
+                            return "";
+                        }
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return newlabnumber;
+        }
+
+        protected void btnReadQR_Click(object sender, EventArgs e)
+        {
+            ReadQRCode(txtlabNo.Text);
+        }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearAll();
+        }
     }
 }

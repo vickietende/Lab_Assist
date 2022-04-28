@@ -271,7 +271,7 @@
                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Process Result" OnClick="btnSave_Click"/>
                              <%--   <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary btn-sm" Text="Print Result" OnClick="btnPrint_Click"/>--%>
                           <asp:Button ID="btnReadQR" runat="server" CssClass="btn btn-primary btn-sm" Text="Read QRCode" OnClick="btnReadQR_Click"/>
-                         <asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary btn-sm" Text="Edit" OnClick="btnEdit_Click"/>
+                         <%--<asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary btn-sm" Text="Edit" OnClick="btnEdit_Click"/>--%>
                           <asp:Button ID="btnClear" runat="server" CssClass="btn btn-primary btn-sm" Text="Clear" OnClick="btnClear_Click"/>
                         </div>
               

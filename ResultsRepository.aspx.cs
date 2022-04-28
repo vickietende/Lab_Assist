@@ -29,7 +29,7 @@ namespace Lab_Assist
         {
             try
             {
-                ListBox lstServices = lvPendingResults.FindControl("lstServices") as ListBox;
+                //ListBox lstServices = lvPendingResults.FindControl("lstServices") as ListBox;
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
                     using (var cmd = new SqlCommand("Select pr.TestID, Full_Name,IDNO,Gender,Phone_Number,p.Test,pr.LabNumber,convert(varchar,pr.Test_Date,103)Test_Date,pr.Test_Time, Case when pr.Status=0 THEN 'Pending' END AS Status from tbl_CustomerDetails cd left join tbl_PendingResults pr ON cd.CustomerNo=pr.CustomerNo left join tbl_Products p ON pr.ProductID=p.ProductID where pr.Status=0", con))
@@ -39,15 +39,15 @@ namespace Lab_Assist
                         adp.Fill(ds, "QGM");
                         if (ds.Tables[0].Rows.Count > 0)
                         {
-                            lvPendingResults.DataSource = ds.Tables[0];
-                            lvPendingResults.Visible = true;
-                            lvPendingResults.DataBind();
+                            grdWorklist.DataSource = ds.Tables[0];
+                            grdWorklist.Visible = true;
+                            grdWorklist.DataBind();
 
 
                         }
                         else
                         {
-                            lvPendingResults.DataSource = null;
+                            grdWorklist.DataSource = null;
                             lblNotification.Visible = true;
                             lblNotification.Text = "No Pending Results!";
 
@@ -75,7 +75,7 @@ namespace Lab_Assist
         {
             try
             {
-                ListBox lstServices = lvPendingResults.FindControl("lstServices") as ListBox;
+                //ListBox lstServices = lvPendingResults.FindControl("lstServices") as ListBox;
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
                     using (var cmd = new SqlCommand("Select pr.TestID, Full_Name,IDNO,Gender,Phone_Number,p.Test,pr.LabNumber,convert(varchar,pr.Test_Date,103)Test_Date,pr.Test_Time, Case when pr.Status=0 THEN 'Pending' END AS Status from tbl_CustomerDetails cd left join tbl_PendingResults pr ON cd.CustomerNo=pr.CustomerNo left join tbl_Products p ON pr.ProductID=p.ProductID where Full_Name LIKE '%" + searchname + "%' and  pr.Status=0", con))
@@ -85,15 +85,16 @@ namespace Lab_Assist
                         adp.Fill(ds, "QGM");
                         if (ds.Tables[0].Rows.Count > 0)
                         {
-                            lvPendingResults.DataSource = ds.Tables[0];
-                            lvPendingResults.Visible = true;
-                            lvPendingResults.DataBind();
+                            grdWorklist.DataSource = ds.Tables[0];
+                            grdWorklist.Visible = true;
+                            lblNotification.Visible = false;
+                            grdWorklist.DataBind();
 
 
                         }
                         else
                         {
-                            lvPendingResults.DataSource = null;
+                            grdWorklist.DataSource = null;
                             lblNotification.Visible = true;
                             lblNotification.Text = "No Pending Results!";
 
@@ -126,6 +127,7 @@ namespace Lab_Assist
                             {
                                 grdArchive.DataSource = ds.Tables[0];
                                 grdArchive.Visible = true;
+                                lblArchiveNotification.Visible = false;
                                 grdArchive.DataBind();
 
 
@@ -133,6 +135,7 @@ namespace Lab_Assist
                             else
                             {
                                 grdArchive.DataSource = null;
+                                lblArchiveNotification.Visible = true;
                                 lblArchiveNotification.Text = "Error-404:No Pending Results found";
 
                             }
@@ -210,7 +213,7 @@ namespace Lab_Assist
         {
             try
             {
-                ListBox lstServices = lvPendingResults.FindControl("lstServices") as ListBox;
+               
                 using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Constring"].ConnectionString))
                 {
                     using (var cmd = new SqlCommand("Select pr.TestID, Full_Name,IDNO,Gender,Phone_Number,p.Test,pr.LabNumber,convert(varchar,pr.Test_Date,103)Test_Date,pr.Test_Time, Case when pr.Status=1 THEN 'Pending' END AS Status from tbl_CustomerDetails cd left join tbl_PendingResults pr ON cd.CustomerNo=pr.CustomerNo left join tbl_Products p ON pr.ProductID=p.ProductID where Full_Name LIKE '%" + searchname + "%' and  pr.Status=1", con))
@@ -244,6 +247,11 @@ namespace Lab_Assist
 
 
             }
+        }
+
+        protected void grdWorklist_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+
         }
     }
 }

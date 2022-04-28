@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Menus>
   <Menu Url="~/Home.aspx" Text="Home" Value="Home Page">
-    <SubMenu Url="~/ResultsRepository.aspx" Text="Pending/Archive" Value="Repository"/>
+    <SubMenu Url="~/ResultsRepository.aspx" Text="Worklist/Archive" Value="Repository"/>
     <SubMenu Url="~/Login.aspx" Text="LogOut" Value="Login Page"/>
     </Menu>
   <Menu Url="javascript:;" Text="Results" Value="Results Page">
       <SubMenu Url ="#" Text="Serology" Value="Serology">
             <InnerMenu Url="~/Results/HIV.aspx" Text="HIV Rapid + ELISA" ></InnerMenu>
-            <InnerMenu Url="~/VL.aspx" Text="HIV Viral Load"></InnerMenu>
-            <InnerMenu Url="~/HCV.aspx" Text="Hepatitis C Virus Antibody"></InnerMenu>
-        <InnerMenu Url="~/HCV.aspx" Text="Hepatitis C Virus Antibody"></InnerMenu>
-        <InnerMenu Url="~/HAV.aspx" Text="Hepatitis A Virus Antibody"></InnerMenu>
-        <InnerMenu Url="~/HSV.aspx" Text="Herpes Simplex Virus I and II"></InnerMenu>
-        <InnerMenu Url="~/Rub.aspx" Text="Rubella IgM and IgG"></InnerMenu>
-        <InnerMenu Url="~/Torch.aspx" Text="Torch Screen"></InnerMenu>
+            <InnerMenu Url="~/Results/HIV_ViralLoad.aspx" Text="HIV-Viral Load"></InnerMenu>
+            <InnerMenu Url="~/Results/VDRL.aspx" Text="VDRL/TPHA and RPR"></InnerMenu>
+        <InnerMenu Url="~/Results/HepatitisB.aspx" Text="Hepatitis B Surface Antigen"></InnerMenu>
+        <InnerMenu Url="~/Results/HepatitisA.aspx" Text="Hepatitis A Virus Antibody"></InnerMenu>
+        <InnerMenu Url="~/Results/HepatitisC.aspx" Text="Hepatitis C Virus Antibody"></InnerMenu>
+        <InnerMenu Url="~/Results/HerpesSimplexVirus.aspx" Text="Herpes Simplex Virus I and II"></InnerMenu>
+        <InnerMenu Url="~/Results/Toxoplasma.aspx" Text="Toxoplasma IgM and IgG"></InnerMenu>
+        <InnerMenu Url="~/Results/Rubella.aspx" Text="Rubella IgM and IgG"></InnerMenu>
+        <InnerMenu Url="~/Results/Cytomegalovirus.aspx" Text="Cytomegalovirus IgM and IgG"></InnerMenu>
+        <InnerMenu Url="~/Results/ToRCH.aspx" Text="ToRCH Screen"></InnerMenu>
         <InnerMenu Url="~/s-Crag.aspx" Text="Cryptococcal Antigen"></InnerMenu>
         <InnerMenu Url="~/Widal.aspx" Text="WIDAL-Typhoid Fever"></InnerMenu>
         <InnerMenu Url="~/Rf.aspx" Text="Rheumatoid factor"></InnerMenu>

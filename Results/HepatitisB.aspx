@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Results/Site2.Master" AutoEventWireup="true" CodeBehind="COVIDPCR.aspx.cs" Inherits="Lab_Assist.Results.COVIDPCR" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Results/Site2.Master" AutoEventWireup="true" CodeBehind="HepatitisB.aspx.cs" Inherits="Lab_Assist.Results.HepatitisB" %>
 <%@ Register
     Assembly="AjaxControlToolkit"
     Namespace="AjaxControlToolkit"
@@ -27,10 +27,9 @@
      <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
  
      <asp:Panel ID="pnlContent" runat="server" BorderColor="SkyBlue" BorderWidth="1px"  CssClass="alert-dark">
-    
      
           <div  class="nav nav-tabs alert-success">
-       <h4>COVID-2 PCR</h4>
+       <h4>Hepatitis B Screen Results</h4>
           </div>
           <div class="container">
                 <div class="row mt-5">
@@ -52,10 +51,10 @@
                     </div>
                     </div>
              </div>
-           <div class="container">
+              <div class="container">
               <div class="row mt-1">
                     <div class="col-md-12 center-block" >
-                    <asp:ListBox ID="lstCustomers" runat="server" AutoPostBack="True" Visible="false" CssClass="col-md-12 center-block" OnSelectedIndexChanged="lstCustomers_SelectedIndexChanged" ></asp:ListBox>
+                    <asp:ListBox ID="lstCustomers" runat="server" AutoPostBack="True" Visible="false" CssClass="col-md-12 center-block" OnSelectedIndexChanged="lstCustomers_SelectedIndexChanged"></asp:ListBox>
                 </div>
                   </div>
               </div>
@@ -88,7 +87,7 @@
                   
                   </div>
          </div>
-          <div class="container">
+            <div class="container">
               <div class="row  mt-1">
                     <div class="col-md-1">
                        <asp:Label ID="Label1" runat="server" Text="Full Name" CssClass="control-label" ></asp:Label> 
@@ -117,7 +116,7 @@
                      
                   </div>
          </div>
-          <div class="container">
+           <div class="container">
               <div class="row  mt-1">
                      <div class="col-md-1">
                        <asp:Label ID="Label10" runat="server" Text="Gender" CssClass="control-label" ></asp:Label> 
@@ -132,7 +131,7 @@
                        
                     </div>
                     <div class="col-md-1">
-                       <asp:Label ID="Label5" runat="server" Text="Doctor/Ref" CssClass="control-label" ></asp:Label> 
+                       <asp:Label ID="Label5" runat="server" Text="Doctor" CssClass="control-label" ></asp:Label> 
                         
                     </div>
                     <div class="col-md-3">
@@ -150,7 +149,7 @@
                   
                   </div>
          </div>
-          <div class="container">
+                 <div class="container">
           <div class="row  mt-3">
           <div  class="nav nav-tabs alert-success">
        <h4>Results</h4>
@@ -189,7 +188,7 @@
                     </div>
                     <div class="col-md-3">
                 <asp:TextBox   ID="txtTestCode" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
-                   
+                       
                     </div>
                     <div  class="col-md-1">
                          <asp:Label ID="Label16" runat="server" Text="Specimen Type"></asp:Label>
@@ -200,29 +199,21 @@
                   
                   </div>
          </div>
-             <div class="container">
+            <div class="container">
               <div class="row  mt-1">
                     <div class="col-md-1">
-                       <asp:Label ID="Label7" runat="server" Text="SARS-COV 2 PCR" CssClass="control-label" ></asp:Label> 
+                       <asp:Label ID="Label7" runat="server" Text="HbsAg" CssClass="control-label" ></asp:Label> 
                         
                     </div>
                     <div class="col-md-3">
-                <asp:TextBox   ID="txtSARS" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
+                <asp:TextBox   ID="txtHbsAg" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
                        
                     </div>
-                     <div class="col-md-1">
-                       <asp:Label ID="Label8" runat="server" Text="Reference Interval" CssClass="control-label" ></asp:Label> 
-                        
-                    </div>
-                    <div class="col-md-3">
-                <asp:TextBox   ID="txtReferenceInterval" autocomplete="off" CssClass="form-group"  runat="server" Width="200px" ></asp:TextBox>
-                       
-                    </div>
-                 
+                    
                   
                   </div>
          </div>
-          <div class="container">
+            <div class="container">
               <div class="row  mt-1">
                     <div class="col-md-1">
                        <asp:Label ID="Label18" runat="server" Text="Comment" CssClass="control-label" ></asp:Label> 
@@ -256,22 +247,22 @@
                   </div>
                 </div>
          <hr/>
-           <div class="container">
+          <div class="container">
               <div class="row  mt-1">
                  
                      <div style="padding-left:200px;">
                             <asp:Button ID="btnSave" runat="server" CssClass="btn btn-primary btn-sm" Text="Process Result" OnClick="btnSave_Click"/>
                              <%--   <asp:Button ID="btnPrint" runat="server" CssClass="btn btn-primary btn-sm" Text="Print Result" OnClick="btnPrint_Click"/>--%>
                           <asp:Button ID="btnReadQR" runat="server" CssClass="btn btn-primary btn-sm" Text="Read QRCode" OnClick="btnReadQR_Click"/>
-                         <%--<asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary btn-sm" Text="Edit" />--%>
+                         <%--<asp:Button ID="btnEdit" runat="server" CssClass="btn btn-primary btn-sm" Text="Edit" OnClick="btnEdit_Click"/>--%>
                           <asp:Button ID="btnClear" runat="server" CssClass="btn btn-primary btn-sm" Text="Clear" OnClick="btnClear_Click"/>
                         </div>
               
                   </div>
                 </div>
-         <br/>
+         <br/><br/>
          </asp:Panel>
-     <ajax:RoundedCornersExtender ID="Panel1_RoundedCornersExtender"
+        <ajax:RoundedCornersExtender ID="Panel1_RoundedCornersExtender"
         runat="server" Enabled="True" TargetControlID="pnlContent" Radius="15">
     </ajax:RoundedCornersExtender>
 </asp:Content>

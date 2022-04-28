@@ -221,6 +221,7 @@ namespace Lab_Assist
 
                 cmd.ExecuteNonQuery();
                 loadProducts();
+                filProducts();
 
                 string script = "alert(\"New Product successfully created\");";
                 ScriptManager.RegisterStartupScript(this, GetType(),
@@ -271,6 +272,7 @@ namespace Lab_Assist
                                       "ServerControlScript", script, true);
                 ClearAll();
                 loadProducts();
+                filProducts();
 
                 con.Close();
 

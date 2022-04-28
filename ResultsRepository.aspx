@@ -13,7 +13,7 @@
          <div id="tabs" style="height:100%">
              <asp:HiddenField ID="hdnSelectedTab" runat="server" Value="0" />
                      <ul>
-                        <li><a href="#tabs-1">Pending Results</a></li>
+                        <li><a href="#tabs-1">Worklist</a></li>
                         <li><a href="#tabs-2">Results Archive</a></li>
                  
                     </ul>
@@ -48,7 +48,89 @@
                     </div>
                     </div>
               </div>
-                        <div class="container">
+                                 <div class="container">
+                <div class="row mt-1">
+                    <div  class="col-md-12">
+
+               <asp:GridView ID="grdWorklist" AutoGenerateColumns="False" horizontalalign="Center"  runat="server" CellPadding="3" GridLines="Horizontal" Caption="Worklist" CaptionAlign="Top"   AllowPaging="True" PageSize="50"   OnPageIndexChanging="grdWorklist_PageIndexChanging" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px">
+                          <AlternatingRowStyle BackColor="#F7F7F7" />
+                          <columns>
+                                <asp:TemplateField HeaderText="#">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblIDEdit" runat="server" Text='<%# Bind("TestID") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="LabNumber">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblLabNumber" runat="server" Text='<%# Bind("LabNumber") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                              
+                               <asp:TemplateField HeaderText="Name">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblFullName" runat="server" Text='<%# Bind("Full_Name") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="Test">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblTest" runat="server" Text='<%# Bind("Test") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                               <asp:TemplateField HeaderText="IDNO">
+                                      
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblIDNO" runat="server" Text='<%# Bind("IDNO") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                               <asp:TemplateField HeaderText="Sex">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblGender" runat="server" Text='<%# Bind("Gender") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                              
+                                 <asp:TemplateField HeaderText="Phone">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblPhoneNumber" runat="server" Text='<%# Bind("Phone_Number") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                               
+                              
+                               <asp:TemplateField HeaderText="Date">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDate" runat="server" Text='<%# Bind("Test_Date") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Time">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblDate" runat="server" Text='<%# Bind("Test_Time") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                              
+                         
+                              </columns>
+                          <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                          <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
+                          <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" />
+                          <RowStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
+                          <SelectedRowStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                          <SortedAscendingCellStyle BackColor="#F4F4FD" />
+                          <SortedAscendingHeaderStyle BackColor="#5A4C9D" />
+                          <SortedDescendingCellStyle BackColor="#D8D8F0" />
+                          <SortedDescendingHeaderStyle BackColor="#3E3277" />
+                      </asp:GridView>
+                        </div>
+                    </div>
+                  </div>
+                        <%-- ListView Rejected by client  --%>
+                     <%--   <div class="container">
                 <div class="row mt-5">
                     <div  class="col-md-12">
                         <asp:ListView ID="lvPendingResults" runat="server"  GroupItemCount="3" GroupPlaceholderID="groupPlaceholder1" ItemPlaceholderID="itemPlaceholder1">
@@ -92,7 +174,8 @@
 
                         </div>
                     </div>
-                </div>
+                </div>--%>
+                        <br/><br/>
                     </asp:Panel>
                     </div>
                <div id="tabs-2">
@@ -133,6 +216,12 @@
                                                         <asp:Label ID="lblIDEdit" runat="server" Text='<%# Bind("TestID") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                               <asp:TemplateField HeaderText="LabNumber">
+                                             
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblLabNumber" runat="server" Text='<%# Bind("LabNumber") %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                               
                               
                                <asp:TemplateField HeaderText="Name">
@@ -167,15 +256,6 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                
-                               <asp:TemplateField HeaderText="LabNumber">
-                                             
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblLabNumber" runat="server" Text='<%# Bind("LabNumber") %>'></asp:Label>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                         
-                               
-                              
                               
                                <asp:TemplateField HeaderText="Date">
                                              
